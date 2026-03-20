@@ -1,0 +1,4 @@
+interface:
+  display_name: "Commit Pipeline"
+  short_description: "Plan, stage, message, and commit in one controlled flow"
+  default_prompt: "Use $commit-pipeline to run plan -> stage -> message -> commit with $commit-planner and $commit-messages."

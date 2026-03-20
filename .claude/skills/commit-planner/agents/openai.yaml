@@ -1,0 +1,4 @@
+interface:
+  display_name: "Commit Planner"
+  short_description: "Plan functional commit batches from working tree changes"
+  default_prompt: "Use $commit-planner to analyze staged and unstaged changes and propose functional commit batches."

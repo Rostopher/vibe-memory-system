@@ -1,0 +1,4 @@
+interface:
+  display_name: "Commit Messages"
+  short_description: "Generate structured commit messages with living-doc links"
+  default_prompt: "Use $commit-messages to draft a structured commit message from staged changes and relevant living docs."
