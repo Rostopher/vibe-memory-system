@@ -45,8 +45,16 @@
 ## 6) Documentation Rules
 
 - 哪些文档是主入口：
-- 什么时候更新 `STATUS.md` / `REPO_STATUS.md` / `DECISIONS.md`：
-- 是否使用 `MAP.md` 维护单一映射真相源：
+- 每个文档的 update_mode 必须遵循（不要对 append-only 的文件做 rewrite，也不要对 rewrite 的文件只追加）：
+  - `STATUS.md`：**rewrite** — 高层快照，每次用最新全貌覆盖
+  - `PROGRESS.md`：**patch** — 模块级清单，逐条修改变化的部分
+  - `DECISIONS.md`：**append** — 只追加新条目，不修改或删除已有决策
+  - `GLOSSARY.md`：**patch** — 新增或修改具体术语条目
+  - `CONVENTIONS.md`：**patch** — 新增或修改具体规则条目
+  - `MAP.md`：**patch** — 新增或修改具体映射条目
+  - `OVERVIEW.md` / `RUNBOOK.md`：**rewrite** — 整体内容变化时全量重写
+- GLOSSARY 与 MAP 的边界：GLOSSARY 定义"概念是什么"（语义边界），MAP 定义"概念在哪里"（实现映射），两者不要混写
+- STATUS 与 PROGRESS 的边界：STATUS 是 3-5 条 bullet 的高层快照，PROGRESS 是 20-50 条的模块级 checklist
 - 是否使用 `SHORT_MEMORY/` 做会话级上下文卸载：
 
 ## 7) Project-Specific Presentation Rules (Optional)

@@ -1,0 +1,65 @@
+version: 1
+purpose: "Memory routing for the vibe-memory-system repository itself."
+
+read_order:
+  minimal:
+    - docs/README.md
+    - docs/OVERVIEW.md
+    - docs/STATUS.md
+    - docs/CONVENTIONS.md
+  expanded:
+    - docs/DECISIONS.md
+    - docs/MAP.md
+    - docs/RUNBOOK.md
+    - docs/GLOSSARY.md
+  on_demand:
+    - docs/PROGRESS.md
+    - docs/SHORT_MEMORY/
+    - docs/archive/
+
+layers:
+  base:
+    purpose: "Stable facts for maintaining this template repository."
+    files:
+      - path: docs/README.md
+        role: "Docs entry point."
+        update_mode: patch
+      - path: docs/OVERVIEW.md
+        role: "Repository purpose and structure."
+        update_mode: rewrite
+      - path: docs/STATUS.md
+        role: "Current repository status."
+        update_mode: rewrite
+      - path: docs/DECISIONS.md
+        role: "Design decisions for this memory system."
+        update_mode: append
+      - path: docs/GLOSSARY.md
+        role: "Project terms."
+        update_mode: patch
+      - path: docs/RUNBOOK.md
+        role: "Maintenance commands."
+        update_mode: rewrite
+      - path: docs/CONVENTIONS.md
+        role: "Repository and template rules."
+        update_mode: patch
+  scaling:
+    purpose: "Detailed mappings for templates, scripts, and skills."
+    files:
+      - path: docs/PROGRESS.md
+        role: "Module-level implementation checklist."
+        update_mode: patch
+      - path: docs/MAP.md
+        role: "Template/script/skill mapping."
+        update_mode: patch
+  session:
+    purpose: "Temporary handoff context."
+    files:
+      - path: docs/SHORT_MEMORY/
+        role: "Session notes."
+        update_mode: append
+  historical:
+    purpose: "Retrospective and historical records."
+    files:
+      - path: docs/archive/
+        role: "Archive."
+        update_mode: append

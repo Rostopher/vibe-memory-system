@@ -54,7 +54,7 @@ Agent：因为 Agent 最大的问题往往不是写不出来，而是每次都�
 Agent：不一定。这个仓库已经带了 `update-living-docs` 这类 skills。你可以直接让我用 `$update-living-docs` 去判断这次工作该更新 `STATUS`、`DECISIONS`、`CONVENTIONS`、`MAP` 还是 `SHORT_MEMORY`。也就是说，很多情况下你不用自己手动整理，我可以按文档层级自动写回。
 ```
 
-更完整的解释入口见 [docs_template_example/ASK_YOUR_AGENT.md](/Volumes/ssd4t/code4t/llm_projects/vibe-memory-system/docs_template_example/ASK_YOUR_AGENT.md)。
+更完整的解释入口见 [docs_template_example/ASK_YOUR_AGENT.md](docs_template_example/ASK_YOUR_AGENT.md)。
 
 如果你想直接让 Agent 动手，而不是只解释，可以这样说：
 
@@ -71,6 +71,13 @@ Agent：不一定。这个仓库已经带了 `update-living-docs` 这类 skills�
 ## 这是什么？
 
 这个仓库提供一套可复用的文档记忆系统，适合放进 AI-assisted coding / research / engineering 项目里作为长期项目记忆层。
+
+当前仓库把“可直接安装的干净模板”和“用于解释的示例模板”分开维护：
+
+- `AGENTS.md`：可复制到目标仓库的 Agent 入口模板，用来放基础常驻规则和仓库特定补充
+- `docs_template/`：默认安装到目标项目的 clean template，尽量少放示例，避免污染目标项目上下文
+- `docs_template_example/`：教学和参考版本，可以保留更长解释和示例
+- `docs/`：这个仓库自己的 memory docs，用来记录模板系统本身的状态、决策和映射
 
 它要解决的核心问题不是“文档不够多”，而是：
 
@@ -147,37 +154,49 @@ Agent：不一定。这个仓库已经带了 `update-living-docs` 这类 skills�
 
 ## Memory System 分层
 
-这个仓库当前采用的是四层 memory 结构：
+这个仓库采用四层 memory 结构。每个文件都有一个明确的**更新模式**（`update_mode`），写在文件的 YAML frontmatter 里，告诉 Agent 和人"这个文件该怎么改"：
+
+- **`rewrite`** — 可以整体重写，文件代表的是"当前快照"
+- **`append`** — 只追加，旧内容不能改，文件是"累积日志"
+- **`patch`** — 逐条修改，文件是"结构化条目集合"
 
 ### 1. Base Memory
 
 项目的稳定主干文档，负责承载最常被重复读取的事实：
 
-- `OVERVIEW.md`
-- `STATUS.md`
-- `DECISIONS.md`
-- `GLOSSARY.md`
-- `RUNBOOK.md`
-- `CONVENTIONS.md`
+| 文件 | 职责 | 更新模式 |
+|---|---|---|
+| `OVERVIEW.md` | 项目的一页纸概括 | `rewrite` |
+| `STATUS.md` | 项目的高层快照：Done / In Progress / Backlog | `rewrite` |
+| `DECISIONS.md` | 决策档案：为什么选 A 不选 B | `append` |
+| `GLOSSARY.md` | 项目词典：术语和命名含义 | `patch` |
+| `RUNBOOK.md` | 操作手册：从头到尾怎么跑 | `rewrite` |
+| `CONVENTIONS.md` | 硬规则：必须遵守的 contract | `patch` |
 
 ### 2. Scaling Memory
 
 当项目复杂度上升后，用来承接更细的实现状态和映射关系：
 
-- `REPO_STATUS.md`
-- `MAP.md`
+| 文件 | 职责 | 更新模式 |
+|---|---|---|
+| `PROGRESS.md` | 模块/feature 级实现清单（不是 changelog） | `patch` |
+| `MAP.md` | 概念/产物 → 文件/代码的导航图 | `patch` |
+
+`PROGRESS.md` 和 `STATUS.md` 的区别：STATUS 是高层快照（3-5 条），PROGRESS 是细粒度清单（可能 20-50 条）。日期型更新记录不该堆在 PROGRESS 里，应该进 `archive/`。
+
+`MAP.md` 和 `GLOSSARY.md` 的区别：GLOSSARY 定义"概念是什么"，MAP 定义"概念在哪里"。
 
 ### 3. Session Memory
 
 用于卸载单次长会话中的中间上下文，避免 compact 或切会话后丢失：
 
-- `SHORT_MEMORY/`
+- `SHORT_MEMORY/`（`append`）
 
 ### 4. Historical Memory
 
 用于保留日期型记录、复盘、探索过程和历史快照：
 
-- `archive/`
+- `archive/`（`append`）
 
 核心原则很简单：
 
@@ -198,13 +217,38 @@ Agent：不一定。这个仓库已经带了 `update-living-docs` 这类 skills�
 
 ```text
 vibe-memory-system/
+├── AGENTS.md
 ├── README.md
+├── docs/
+│   ├── MEMORY_MANIFEST.yml
+│   ├── OVERVIEW.md
+│   ├── STATUS.md
+│   ├── DECISIONS.md
+│   └── MAP.md
+├── docs_template/
+│   ├── MEMORY_MANIFEST.yml
+│   ├── README.md
+│   ├── OVERVIEW.md
+│   ├── STATUS.md
+│   ├── DECISIONS.md
+│   ├── GLOSSARY.md
+│   ├── RUNBOOK.md
+│   ├── CONVENTIONS.md
+│   ├── PROGRESS.md
+│   ├── MAP.md
+│   ├── SHORT_MEMORY/
+│   └── archive/
+├── scripts/
+│   ├── install_to_project.sh
+│   ├── sync_to_codex.sh
+│   └── sync_to_claude.sh
 ├── .claude/
 │   └── skills/
 │       ├── commit-messages/
 │       ├── commit-pipeline/
 │       ├── commit-planner/
 │       ├── git-understand/
+│       ├── research-engineering/
 │       └── update-living-docs/
 └── docs_template_example/
     ├── README.md
@@ -214,19 +258,50 @@ vibe-memory-system/
     ├── GLOSSARY.md
     ├── RUNBOOK.md
     ├── CONVENTIONS.md
-    ├── REPO_STATUS.md
+    ├── PROGRESS.md
     ├── MAP.md
     ├── SHORT_MEMORY/
     └── archive/
 ```
 
+## 安装与同步脚本
+
+这个仓库已经附带 3 个最小可用脚本，用来替代手动复制粘贴：
+
+- `scripts/install_to_project.sh TARGET_PROJECT_PATH`
+  - 把 `AGENTS.md` 安装到目标项目根目录
+  - 把 `docs_template/` 安装为目标项目的 `docs/`
+  - 把 `.claude/skills/` 安装到目标项目的 `.claude/skills/`
+- `scripts/sync_to_codex.sh --force`
+  - 把本仓库里的 skills 同步到 `~/.codex/skills/`
+- `scripts/sync_to_claude.sh --force`
+  - 把本仓库里的 skills 同步到 `~/.claude/skills/`
+
+默认情况下，如果目标路径已存在同名内容，这些脚本会拒绝覆盖；需要显式传 `--force` 才会覆盖。
+
 ## 这个仓库里有什么？
+
+### `AGENTS.md`
+
+可直接复制到目标仓库根目录的 Agent 入口模板。
+
+它负责放最基础的常驻规则：如何读取 `docs/`、什么时候使用 skills、Python / 数据处理的 fallback 规则、文档维护分层，以及目标仓库可以继续追加的项目特定补充。它不是只服务本仓库的说明文件。
+
+### `docs_template/`
+
+干净、可直接安装到目标项目的 docs 结构。
+
+它保留职责边界、占位符和 `MEMORY_MANIFEST.yml`，但尽量不放长篇示例，避免目标项目把模板示例误读成项目事实。`scripts/install_to_project.sh` 默认使用这一套。
 
 ### `docs_template_example/`
 
-一个可直接复制到别的项目里的示例 docs 结构。
+一个用于解释和教学的示例 docs 结构。
 
 它不是强制规范，而是一个已经按职责拆好的参考实现。你可以自由改名、删减、重组，但建议保留每个文档的核心职责边界。
+
+### `docs/`
+
+这个仓库自己的 memory docs，用来记录模板系统本身的状态、决策、运行方式和文件映射。它不是复制到目标项目的模板源。
 
 ### `.claude/skills/update-living-docs/`
 
@@ -308,6 +383,15 @@ vibe-memory-system/
 请先用 $git-understand 看一下这个仓库最近的改动和当前工作区状态，再告诉我你准备怎么接手。
 ```
 
+### `$research-engineering`
+
+用途：
+
+- 面向研究型 Python 项目的数据处理、诊断脚本、回归、测试和绘图
+- 约束路径定位、大文件读取、测试先行、输出位置和 fallback 策略
+
+它不是所有项目的默认规则。只有当任务确实涉及 Python 数据、研究分析或类似工作流时才需要启用。
+
 ### 一个实用工作流
 
 如果你把这套系统带进一个项目里，比较自然的工作流通常是：
@@ -327,11 +411,12 @@ vibe-memory-system/
 
 ## 快速使用
 
-1. 把 `docs_template_example/` 复制到目标项目并改名为 `docs/`
-2. 先填好最基础的动态文档
-3. 在项目级 Agent 入口里要求优先阅读 `docs/README.md` 和核心 docs
-4. 按项目复杂度逐步启用 `REPO_STATUS.md`、`MAP.md`、`SHORT_MEMORY/`
-5. 如果你也在用 Claude Code，可把 `.claude/skills/update-living-docs/` 一起带过去
+1. 运行 `scripts/install_to_project.sh TARGET_PROJECT_PATH`
+2. 在目标项目的 `AGENTS.md` 里补充仓库特定规则
+3. 在目标项目的 `docs/` 里填好基础动态文档
+4. 在目标项目的 Agent 入口里要求优先阅读 `docs/MEMORY_MANIFEST.yml`、`docs/README.md` 和核心 docs
+5. 按项目复杂度逐步启用 `PROGRESS.md`、`MAP.md`、`SHORT_MEMORY/`
+6. 如果你只想手动安装，也可以复制 `AGENTS.md` 到目标项目根目录，并复制 `docs_template/` 到目标项目后改名为 `docs/`
 
 ## 使用原则
 
@@ -344,9 +429,12 @@ vibe-memory-system/
 
 这个仓库目前是一个 memory system 模板仓库，重点在于：
 
-- 提供可复用的 docs template
-- 提供配套的 Agent skills
+- 提供可复用的 clean docs template（每个文件带身份证 frontmatter）
+- 提供可复用的 AGENTS.md template
+- 保留带解释的 docs template example
+- 提供配套的 Agent skills（`update-living-docs` 已支持读取 `update_mode` 字段）
 - 形成一套适合项目级长期维护的文档分层方法
+- 每个文件有明确的更新模式：`rewrite` / `append` / `patch`
 
 后续如果继续演进，比较自然的方向会是：
 

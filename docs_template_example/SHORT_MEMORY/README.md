@@ -17,7 +17,7 @@
 
 以下内容应上提到其他层：
 
-- 稳定项目状态：`STATUS.md` / `REPO_STATUS.md`
+- 稳定项目状态：`STATUS.md` / `PROGRESS.md`
 - 正式决策：`DECISIONS.md`
 - 长期规则：`CONVENTIONS.md`
 - 稳定术语：`GLOSSARY.md`

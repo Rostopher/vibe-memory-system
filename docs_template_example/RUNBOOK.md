@@ -85,7 +85,7 @@ results/
 
 - 项目总览：`docs/OVERVIEW.md`
 - 当前状态：`docs/STATUS.md`
-- 详细状态：`docs/REPO_STATUS.md`
+- 详细状态：`docs/PROGRESS.md`
 - 决策记录：`docs/DECISIONS.md`
 - 仓库规则：`docs/CONVENTIONS.md`
 - 映射关系：`docs/MAP.md`

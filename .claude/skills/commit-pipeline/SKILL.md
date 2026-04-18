@@ -30,7 +30,7 @@ If staging state does not match the selected batch, fix staging first before gen
 3. Decide whether living docs belong in this batch.
    - Think in terms of the repository's memory system, not just a few default docs.
    - Base Memory may include files such as `docs/STATUS.md`, `docs/DECISIONS.md`, `docs/CONVENTIONS.md`, `docs/GLOSSARY.md`, `docs/RUNBOOK.md`, `docs/OVERVIEW.md`, or `docs/README.md`.
-   - Scaling Memory may include files such as `docs/REPO_STATUS.md`, `docs/MAP.md`, or project-specific mapping docs like `docs/PAPER_MAP.md`.
+   - Scaling Memory may include files such as `docs/PROGRESS.md`, `docs/MAP.md`, or project-specific mapping docs like `docs/PAPER_MAP.md`.
    - Session Memory and Historical Memory usually do not belong in the same commit by default, but if this batch intentionally captures session context or a completed retrospective, include the relevant `docs/SHORT_MEMORY/...` or `docs/archive/...` file explicitly.
    - Follow the repository's docs conventions and keep claims aligned with implemented reality.
    - Use `$update-living-docs` when it helps, but only for docs that are genuinely relevant to the selected batch.

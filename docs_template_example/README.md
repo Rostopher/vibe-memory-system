@@ -2,7 +2,7 @@
 
 > **职责先说清**：这个 README 是给“复制进你的项目后的 `docs/` 目录”用的入口说明，不是用来介绍本仓库 `vibe-memory-system` 自己在干什么。
 
-> 如果你想知道这个仓库本身的定位、为什么要做这套系统、它解决了哪些真实问题，先看仓库根目录 [README.md](/Volumes/ssd4t/code4t/llm_projects/vibe-memory-system/README.md)。
+> 如果你想知道这个仓库本身的定位、为什么要做这套系统、它解决了哪些真实问题，先看仓库根目录 [README.md](../README.md)。
 
 > 如果你已经把这套模板复制进某个具体项目，并改名为 `docs/`，那么当前这个文件回答的是：这些文档在项目里各自负责什么、先用哪些、怎么逐步启用。
 
@@ -37,11 +37,11 @@
 
 ## 这是什么？
 
-这是一个可复制到其他项目里的 `docs/` 模板，用来给项目提供分层的 memory system。
+这是一个带解释和示例的 `docs/` 参考版本，用来说明分层 memory system 应该怎么工作。
+
+如果你要安装到真实项目，默认使用仓库里的 `docs_template/`。本目录适合学习设计意图、比较文档职责，以及给 Agent 解释这套系统。
 
 它不是让你机械照抄一组文件名，而是给你一套清晰的职责拆分方式，让项目里的知识知道自己该落在哪一层。
-
-如果你准备把它复制到一个新项目，建议先把它当成一套“最小可运行的项目记忆结构”，而不是一次性铺满所有文档。
 
 ## 先怎么用：最小版还是增强版？
 
@@ -67,7 +67,7 @@
 
 当项目复杂度上来后，再启用：
 
-- `REPO_STATUS.md`
+- `PROGRESS.md`
 - `MAP.md`
 - `SHORT_MEMORY/`
 
@@ -81,7 +81,7 @@
 推荐默认策略：
 
 1. 先从 Base Memory 开始
-2. 当 `STATUS.md` 明显太挤时，加 `REPO_STATUS.md`
+2. 当 `STATUS.md` 明显太挤时，加 `PROGRESS.md`
 3. 当实现链路很难回溯时，加 `MAP.md`
 4. 当 session 上下文经常丢时，加 `SHORT_MEMORY/`
 
@@ -89,20 +89,32 @@
 
 **先把最小系统跑起来，再按真实痛点长出扩展层。**
 
+## Update Mode 说明
+
+每个文档有一个 **update_mode**，它告诉 Agent "这份文档应该怎么改"：
+
+| Update Mode | 含义 | 典型操作 |
+|---|---|---|
+| **rewrite** | 整体重写 | 每次更新时用最新全貌覆盖旧内容，不需要保留历史痕迹 |
+| **append** | 只追加 | 在末尾添加新条目，不修改或删除已有条目 |
+| **patch** | 局部修改 | 定位到具体条目/section，只改变化的部分 |
+
+为什么要区分：Agent 在更新文档时需要知道"改多少"。没有 update_mode 指引，Agent 容易出现两种极端——要么每次全量重写导致信息丢失，要么对所有文件只敢追加导致内容膨胀。
+
 ## 四层结构分别负责什么
 
 ### 1. Base Memory
 
 项目最常被重复读取的稳定事实。
 
-| 文件 | 回答的核心问题 | 什么时候更新 |
-|---|---|---|
-| `OVERVIEW.md` | 这个项目是什么，主线和架构是什么 | 项目方向或架构明显变化时 |
-| `STATUS.md` | 当前项目高层进展到哪了 | 里程碑完成或主线变化时 |
-| `DECISIONS.md` | 为什么要这样做 | 做出稳定决策后 |
-| `GLOSSARY.md` | 术语、变量、命名分别是什么意思 | 引入新概念时 |
-| `RUNBOOK.md` | 怎么运行、怎么排错、产物在哪 | 运行方式变化时 |
-| `CONVENTIONS.md` | 代码和输出有哪些硬规则 | 规范新增或变更时 |
+| 文件 | 回答的核心问题 | Update Mode | 什么时候更新 |
+|---|---|---|---|
+| `OVERVIEW.md` | 这个项目是什么，主线和架构是什么 | rewrite | 项目方向或架构明显变化时 |
+| `STATUS.md` | 当前项目高层进展到哪了 | rewrite | 里程碑完成或主线变化时 |
+| `DECISIONS.md` | 为什么要这样做 | append | 做出稳定决策后 |
+| `GLOSSARY.md` | 术语、变量、命名分别是什么意思 | patch | 引入新概念时 |
+| `RUNBOOK.md` | 怎么运行、怎么排错、产物在哪 | rewrite | 运行方式变化时 |
+| `CONVENTIONS.md` | 代码和输出有哪些硬规则 | patch | 规范新增或变更时 |
 
 原则：
 
@@ -114,15 +126,24 @@
 
 当项目变复杂后，用来承接 Base Memory 放不下、但又很活跃的重要细节。
 
-#### `REPO_STATUS.md`
+| 文件 | 回答的核心问题 | Update Mode |
+|---|---|---|
+| `PROGRESS.md` | 每个模块/feature 具体做了没有 | patch |
+| `MAP.md` | 概念/产物/feature 映射到哪些文件 | patch |
 
-用来承接更细的实现追踪，例如：
+#### `PROGRESS.md`（update_mode: patch）
+
+模块/feature 级别的实现清单，例如：
 
 - 哪些模块做完了
 - 哪些差异还存在
 - 哪些工作流已经落地到什么程度
 
-#### `MAP.md`
+注意：这是一个**清单**，不是 changelog。日期型的更新记录应该进 `archive/`。
+
+和 `STATUS.md` 的关键区别：STATUS 是高层快照（update_mode: rewrite，每次用最新全貌覆盖），PROGRESS 是模块级清单（update_mode: patch，逐条修改具体条目）。
+
+#### `MAP.md`（update_mode: patch）
 
 用来做概念到实现的映射，例如：
 
@@ -130,12 +151,14 @@
 - 一个 API 背后由哪些模块共同完成
 - 一张图、一个表、一个 artifact 对应哪个脚本、哪个输入、哪个导出链路
 
+和 `GLOSSARY.md` 的关键区别：GLOSSARY 定义"概念是什么"（语义边界），MAP 定义"概念在哪里"（实现映射）。两者都是 patch 模式，但职责完全不同。
+
 原则：
 
-- `REPO_STATUS.md` 负责更细的“状态”
-- `MAP.md` 负责更细的“对照和指针”
+- `PROGRESS.md` 负责更细的"模块级清单"
+- `MAP.md` 负责更细的"对照和指针"
 
-### 3. Session Memory
+### 3. Session Memory（update_mode: append）
 
 `SHORT_MEMORY/` 用来保存单次会话里有价值、但还没稳定到能进正式文档的上下文。
 
@@ -152,7 +175,7 @@
 - 已经明确的规范
 - 已经形成正式结论的决策
 
-### 4. Historical Memory
+### 4. Historical Memory（update_mode: append）
 
 `archive/` 用来保留历史记录和回溯材料，例如：
 
@@ -174,7 +197,7 @@ docs/
 ├── README.md
 ├── OVERVIEW.md
 ├── STATUS.md
-├── REPO_STATUS.md
+├── PROGRESS.md
 ├── DECISIONS.md
 ├── GLOSSARY.md
 ├── RUNBOOK.md
@@ -196,13 +219,13 @@ docs/
 
 如果你只想快速装到新项目里：
 
-1. 把 `docs_template_example/` 复制到目标项目并改名为 `docs/`
+1. 把 `docs_template/` 复制到目标项目并改名为 `docs/`，或运行 `scripts/install_to_project.sh TARGET_PROJECT_PATH`
 2. 先填 6 个基础动态文档
 3. 在项目级 Agent 入口里加入 `docs/README.md`
 4. 如果用户不想自己读 docs，直接让 Agent 先看 `docs/ASK_YOUR_AGENT.md`
 5. 如果你也想减少手动维护，把仓库里的 `.claude/skills/` 一起复制过去
 6. 做完有意义的工作后，直接让 Agent 用 `$update-living-docs` 回写 docs
-7. 只有在出现明确痛点时，再启用 `REPO_STATUS.md`、`MAP.md`、`SHORT_MEMORY/`
+7. 只有在出现明确痛点时，再启用 `PROGRESS.md`、`MAP.md`、`SHORT_MEMORY/`
 
 详细迁移步骤见 [HOW_TO_CLONE_THIS_TEMPLATE.md](./HOW_TO_CLONE_THIS_TEMPLATE.md)。
 
@@ -236,7 +259,7 @@ docs/
 
 如果项目明显更复杂，再继续看：
 
-- `docs/REPO_STATUS.md`
+- `docs/PROGRESS.md`
 - `docs/MAP.md`
 - `docs/SHORT_MEMORY/`
 
