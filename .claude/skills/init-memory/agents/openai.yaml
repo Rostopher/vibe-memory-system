@@ -1,0 +1,4 @@
+interface:
+  display_name: "Init Memory"
+  short_description: "Scan repo and populate docs/ memory templates with real content"
+  default_prompt: "Use $init-memory to scan this repository and fill the docs/ memory templates with real project content extracted from code, config, git history, and README."

@@ -18,4 +18,5 @@ not_for: "term definitions (-> GLOSSARY), current status (-> STATUS/PROGRESS)"
 | Sync skills to Codex | `scripts/sync_to_codex.sh` | Copies `.claude/skills/*` to `~/.codex/skills/` |
 | Sync skills to Claude Code | `scripts/sync_to_claude.sh` | Copies `.claude/skills/*` to `~/.claude/skills/` |
 | Docs maintenance skill | `.claude/skills/update-living-docs/SKILL.md` | Classifies updates into memory layers |
+| Memory initialization skill | `.claude/skills/init-memory/SKILL.md` | Scans existing repo and populates empty docs templates; includes placeholder replacement, git reliability checks, and optional read-only sub-agent investigation |
 | Research engineering skill | `.claude/skills/research-engineering/SKILL.md` | Optional for Python research workflows |

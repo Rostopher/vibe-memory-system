@@ -39,6 +39,7 @@ Always respond in Chinese-simplified.
 ## Skills 使用
 
 - Skills 的完整流程由各自的 `SKILL.md` 定义，`AGENTS.md` 只说明何时优先使用。
+- **首次接入：** 刚把 docs 模板安装到已有仓库时，使用 `init-memory` 扫描仓库并一次性填充所有 docs 模板为真实内容。
 - 完成有意义的代码、文档、决策、映射或运行方式变更后，优先使用 `update-living-docs` 判断是否需要回写 `docs/`。
 - 准备提交时，优先使用 `commit-planner` 拆分提交；需要完整提交流程时使用 `commit-pipeline`。
 - 涉及 Python 数据处理、回归、诊断脚本、测试或绘图时，优先使用 `research-engineering`。

@@ -22,6 +22,7 @@ not_for: "high-level summary (-> STATUS), dated changelogs (-> archive/)"
 - `docs_template_example/` remains available for explanation and comparison.
 - `AGENTS.md` is a copyable Agent entry template for target repositories.
 - All template files include identity-card frontmatter (update_mode, role, read_when, not_for).
+- `init-memory` skill scans existing repos and populates empty docs templates with real content, while guarding against placeholder append artifacts, weak git-history inference, and unresolved uncertainty via optional focused sub-agent investigations.
 
 ## Gaps
 
