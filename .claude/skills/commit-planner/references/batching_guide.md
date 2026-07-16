@@ -30,9 +30,9 @@ Create commit batches that are:
 
 ## Docs Heuristics
 
-- If `docs/DECISIONS.md` records a decision implemented by the code, reference that decision in the feature batch.
-- If `docs/STATUS.md` marks the current feature as done or in-progress, use it to frame whether the batch is complete or partial.
-- If `docs/CONVENTIONS.md` changes because of the code, consider whether that should be in the same batch or a docs/rules batch.
+- If `memory-docs/detail_mem/DECISIONS.md` records a decision implemented by the code, reference that decision in the feature batch.
+- If `memory-docs/STATUS.md` marks the current feature as done or in-progress, use it to frame whether the batch is complete or partial.
+- If `memory-docs/CONVENTIONS.md` changes because of the code, consider whether that should be in the same batch or a docs/rules batch.
 
 ## When to Split Docs
 

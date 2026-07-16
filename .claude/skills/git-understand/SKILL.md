@@ -1,6 +1,6 @@
 ---
 name: git-understand
-description: Use at the start of a conversation to establish repository context, or when the user asks to review code changes, compare branches, or trace file and line history. Covers three directions: git-scan (repo overview), git-review (understand a concrete change), and git-trace (follow historical evolution).
+description: "Use at the start of a conversation to establish repository context, or when the user asks to review code changes, compare branches, or trace file and line history. Covers three directions: git-scan (repo overview), git-review (understand a concrete change), and git-trace (follow historical evolution)."
 ---
 
 # Git Understand
@@ -75,9 +75,9 @@ git ls-tree -r --name-only HEAD | head -30
 ```
 
 4. Optionally inspect project docs that explain the repository.
-   - `docs/STATUS.md` for current phase and progress
-   - `docs/DECISIONS.md` for major technical decisions
-   - `docs/CONVENTIONS.md` for workflow and coding rules
+   - `memory-docs/STATUS.md` for current phase and progress
+   - `memory-docs/detail_mem/DECISIONS.md` for major technical decisions
+   - `memory-docs/CONVENTIONS.md` for workflow and coding rules
 
 ### Expected Output
 
@@ -221,9 +221,9 @@ Use `...` when you want the diff from the merge base to the feature branch. Use 
 
 If the repository uses living docs, mention them when they add context:
 
-- `docs/STATUS.md`
-- `docs/DECISIONS.md`
-- `docs/CONVENTIONS.md`
+- `memory-docs/STATUS.md`
+- `memory-docs/detail_mem/DECISIONS.md`
+- `memory-docs/CONVENTIONS.md`
 
 Use them to interpret project state and rules, not as a replacement for Git history.
 

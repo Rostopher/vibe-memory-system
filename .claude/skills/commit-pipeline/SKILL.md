@@ -29,9 +29,9 @@ If staging state does not match the selected batch, fix staging first before gen
    - Select one batch as the next commit.
 3. Decide whether living docs belong in this batch.
    - Think in terms of the repository's memory system, not just a few default docs.
-   - Base Memory may include files such as `docs/STATUS.md`, `docs/DECISIONS.md`, `docs/CONVENTIONS.md`, `docs/GLOSSARY.md`, `docs/RUNBOOK.md`, `docs/OVERVIEW.md`, or `docs/README.md`.
-   - Scaling Memory may include files such as `docs/PROGRESS.md`, `docs/MAP.md`, or project-specific mapping docs like `docs/PAPER_MAP.md`.
-   - Session Memory and Historical Memory usually do not belong in the same commit by default, but if this batch intentionally captures session context or a completed retrospective, include the relevant `docs/SHORT_MEMORY/...` or `docs/archive/...` file explicitly.
+   - Framework memory may include `memory-docs/OVERVIEW.md`, `STATUS.md`, `HISTORY.md`, `CONVENTIONS.md`, and `GLOSSARY.md`.
+   - Routing memory is `memory-docs/DIRS.md`; detailed memory includes `memory-docs/detail_mem/MAP.md`, `PROGRESS.md`, and `DECISIONS.md`.
+   - Session and historical memory usually do not belong in the same commit by default, but include relevant `memory-docs/SHORT_MEMORY/...` or `memory-docs/archive/...` files when the batch intentionally captures handoff context or a retrospective.
    - Follow the repository's docs conventions and keep claims aligned with implemented reality.
    - Use `$update-living-docs` when it helps, but only for docs that are genuinely relevant to the selected batch.
    - If docs should be separate, make that an explicit follow-up batch instead of silently deferring them.

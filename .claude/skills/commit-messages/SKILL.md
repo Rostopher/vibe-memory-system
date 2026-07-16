@@ -1,6 +1,6 @@
 ---
 name: commit-messages
-description: Generate structured git commit messages for staged changes using Conventional Commits plus `Why`/`What`/`Risk`/`Tests` sections. Use when preparing a commit after code changes, especially in repositories that keep living docs under `docs/`. Prefer linking detailed rationale and progress to `docs/DECISIONS.md`, `docs/STATUS.md`, and `docs/CONVENTIONS.md` instead of expanding the commit body with long design narratives.
+description: Generate structured git commit messages for staged changes using Conventional Commits plus `Why`/`What`/`Risk`/`Tests` sections. Use when preparing a commit after code changes, especially in repositories that keep living docs under `memory-docs/`. Prefer linking detailed rationale and progress to `memory-docs/detail_mem/DECISIONS.md`, `memory-docs/STATUS.md`, and `memory-docs/CONVENTIONS.md` instead of expanding the commit body with long design narratives.
 ---
 
 # Commit Messages
@@ -12,7 +12,7 @@ Keep the commit self-contained at summary level, then point to the living docs f
 
 Commit messages should be self-contained summaries with stable pointers into living docs, not full replacements for project context.
 
-If the repository uses living docs under `docs/`, prefer linking detailed context and decisions there instead of expanding commit bodies with long design narratives.
+If the repository uses `memory-docs/`, prefer linking detailed context and decisions there instead of expanding commit bodies with long design narratives.
 
 ## Workflow
 
@@ -21,9 +21,9 @@ If the repository uses living docs under `docs/`, prefer linking detailed contex
    - Inspect `git diff --staged --name-only`.
    - Inspect `git diff --staged`.
 2. Read the repository living docs when present.
-   - `docs/DECISIONS.md` for design rationale and decisions.
-   - `docs/STATUS.md` for current phase, completed work, and backlog.
-   - `docs/CONVENTIONS.md` for coding and workflow rules.
+   - `memory-docs/detail_mem/DECISIONS.md` for design rationale and decisions.
+   - `memory-docs/STATUS.md` for current phase, completed work, and backlog.
+   - `memory-docs/CONVENTIONS.md` for coding and workflow rules.
 3. Separate information into two buckets.
    - **Implemented now**: behavior and decisions reflected in staged changes.
    - **Not implemented now**: future phases, deferred tools, unmerged ideas.
@@ -113,26 +113,26 @@ Prefer stable references over vague mentions like `see docs`.
 
 For this repository:
 
-- Use `docs/DECISIONS.md` for design rationale and decision history.
+- Use `memory-docs/detail_mem/DECISIONS.md` for design rationale and decision history.
 - Reference decisions by ID when possible, for example `DEC-007`.
-- Use `docs/STATUS.md` for phase, done, in-progress, and backlog context.
-- Use `docs/CONVENTIONS.md` when the change is governed by or updates repository rules.
+- Use `memory-docs/STATUS.md` for phase, done, in-progress, and backlog context.
+- Use `memory-docs/CONVENTIONS.md` when the change is governed by or updates repository rules.
 
 Preferred `Live Docs` formats:
 
 ```text
 Live Docs:
-- Status: docs/STATUS.md
-- Decisions: DEC-007, DEC-008 in docs/DECISIONS.md
+- Status: memory-docs/STATUS.md
+- Decisions: DEC-007, DEC-008 in memory-docs/detail_mem/DECISIONS.md
 ```
 
 or, when needed:
 
 ```text
 Live Docs:
-- Status: docs/STATUS.md
-- Decisions: DEC-007 in docs/DECISIONS.md
-- Conventions: docs/CONVENTIONS.md
+- Status: memory-docs/STATUS.md
+- Decisions: DEC-007 in memory-docs/detail_mem/DECISIONS.md
+- Conventions: memory-docs/CONVENTIONS.md
 ```
 
 Do not cite docs that are unrelated to the staged change.
@@ -174,8 +174,8 @@ Tests:
 - manual validation of paper and queue status updates
 
 Live Docs:
-- Status: docs/STATUS.md
-- Decisions: DEC-007, DEC-008, DEC-009 in docs/DECISIONS.md
+- Status: memory-docs/STATUS.md
+- Decisions: DEC-007, DEC-008, DEC-009 in memory-docs/detail_mem/DECISIONS.md
 ```
 
 Bad patterns:

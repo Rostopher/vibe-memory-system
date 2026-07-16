@@ -1,270 +1,94 @@
 ---
 name: update-living-docs
-description: Update the project's docs memory system after meaningful work. Use when code, decisions, conventions, mappings, session context, or historical records should be reflected in docs/ without asking the user to manually maintain them.
+description: Keep a project's memory-docs system aligned with implemented reality after meaningful code, research, documentation, decision, mapping, milestone, handoff, or retrospective changes. Use when stable facts or active context should be preserved without asking the user to maintain project memory manually.
 ---
 
 # Update Living Docs
 
-Use this skill to keep the project's docs memory system aligned with reality.
+Maintain project memory as part of completing meaningful work. Update only the layers affected by verified changes.
 
-The goal is not "update some docs."
+## Establish the Memory Contract
 
-The goal is:
+1. Confirm `memory-docs/INDEX.md` exists.
+2. Read `AGENTS.md`, `memory-docs/INDEX.md`, and the target files before editing.
+3. Read each target file's frontmatter:
+   - `role`: what belongs there;
+   - `not_for`: what must go elsewhere;
+   - `update_mode`: how it may change.
+4. Treat code, tests, generated results, executed commands, and explicit user decisions as evidence. When memory conflicts with implementation, trust implementation and repair or flag the memory.
 
-- the user should not need to manually maintain project memory
-- the Agent should proactively preserve stable facts, rules, mappings, and important context
-- docs should stay consistent with implemented reality
+## Route Information
 
-## Core Rule
+| Information | Primary target |
+|---|---|
+| Stable project identity, scope, top-level workflow | `memory-docs/OVERVIEW.md` |
+| Current focus, recent 3–5 milestones, blockers, confirmed backlog | `memory-docs/STATUS.md` |
+| Stage transitions and causal project evolution | `memory-docs/HISTORY.md` |
+| Hard rules and stable contracts | `memory-docs/CONVENTIONS.md` |
+| Domain terms, variables, display names | `memory-docs/GLOSSARY.md` |
+| Detailed-memory directory registration | `memory-docs/DIRS.md` |
+| Concept or artifact to 1–2 authoritative entry files | `memory-docs/detail_mem/MAP.md` |
+| Module and capability implementation checklist | `memory-docs/detail_mem/PROGRESS.md` |
+| Stable choices with context, alternatives, reasons, and impact | `memory-docs/detail_mem/DECISIONS.md` |
+| Useful but not yet stable handoff context | `memory-docs/SHORT_MEMORY/` |
+| Completed retrospectives, old snapshots, failed explorations | `memory-docs/archive/` |
 
-The Agent is responsible for maintaining docs when meaningful work has changed the project state.
+If a detailed topic needs more than a short entry, create a semantic subdirectory under `memory-docs/` and register it in `DIRS.md` in the same change.
 
-Do not wait for perfect completeness.
-Do not wait for the user to remember every doc that should change.
-But also do not spray updates everywhere.
+## Obey Update Modes
 
-First decide which layer of the memory system should absorb the new information, then update only that layer.
+### `rewrite`
 
-## Understand The Memory System First
+Replace the current snapshot while preserving frontmatter. Standard files: `INDEX.md`, `OVERVIEW.md`, `STATUS.md`.
 
-Before editing docs, identify the repository's memory layers:
+Move historically valuable removed content to `HISTORY.md` or `archive/`; do not retain stale text merely to avoid rewriting.
 
-- **Base Memory**
-  - `docs/README.md`
-  - `docs/OVERVIEW.md`
-  - `docs/STATUS.md`
-  - `docs/DECISIONS.md`
-  - `docs/GLOSSARY.md`
-  - `docs/RUNBOOK.md`
-  - `docs/CONVENTIONS.md`
-- **Scaling Memory**
-  - `docs/PROGRESS.md`
-  - `docs/MAP.md` or project-specific `*_MAP.md`
-- **Session Memory**
-  - `docs/SHORT_MEMORY/`
-- **Historical Memory**
-  - `docs/archive/`
+### `patch`
 
-Not every repository will use every layer. Detect what exists and work with the actual structure.
+Modify structured entries in place. Standard files: `CONVENTIONS.md`, `GLOSSARY.md`, `DIRS.md`, `detail_mem/MAP.md`, `detail_mem/PROGRESS.md`.
 
-## Read Frontmatter Before Editing
+Add, correct, or remove only the affected entries. `PROGRESS.md` is a checklist, not a dated changelog. `MAP.md` is navigation, not a full inventory.
 
-Each docs file contains a YAML frontmatter with an `update_mode` field. **Always read this field before making changes.** It determines how the file should be modified:
+### `append`
 
-### `update_mode: rewrite`
+Add new records without rewriting historical entries. Standard files: `HISTORY.md`, `detail_mem/DECISIONS.md`, `SHORT_MEMORY/`, `archive/`.
 
-The file represents a **current snapshot** that can be completely replaced.
-
-Files: `OVERVIEW.md`, `STATUS.md`, `RUNBOOK.md`
-
-How to update:
-- You may replace the entire content with a fresh version.
-- Do not worry about preserving old text — the file is meant to reflect the current state.
-- Historical content that is being removed should move to `archive/` if valuable.
-
-### `update_mode: append`
-
-The file is an **accumulating log** where old entries must never be modified.
-
-Files: `DECISIONS.md`, `SHORT_MEMORY/`, `archive/`
-
-How to update:
-- Add new entries at the end (or in the appropriate section).
-- Never rewrite, reorder, or delete existing entries.
-- If an old entry is superseded, add a new entry that references the old one (e.g., `supersedes DEC-xxx`).
-
-### `update_mode: patch`
-
-The file contains **structured entries** that are individually updated in place.
-
-Files: `CONVENTIONS.md`, `GLOSSARY.md`, `MAP.md`, `PROGRESS.md`, `README.md`
-
-How to update:
-- Add new entries in the appropriate section.
-- Modify existing entries in place when their content changes.
-- Remove entries only when they are clearly obsolete.
-- Do not rewrite the entire file unless the structure itself needs reorganization.
-
-## When To Use
-
-Use this skill when:
-
-- meaningful implementation work finished
-- a milestone or current focus changed
-- a new decision became stable
-- a convention or contract changed
-- a mapping between concept and implementation changed
-- a long session produced context that should not be lost
-- an exploration, pitfall, or failed direction should be preserved historically
-
-## Update Strategy
-
-Always classify the new information before editing.
-
-### 1. Update Base Memory when the project's stable truth changed
-
-Typical targets:
-
-- `docs/STATUS.md` (**rewrite**)
-  - current focus changed
-  - something moved from in-progress to done
-  - backlog priorities shifted
-- `docs/DECISIONS.md` (**append**)
-  - a design, method, naming, or workflow decision became stable
-- `docs/CONVENTIONS.md` (**patch**)
-  - a new hard rule, contract, naming rule, or output rule was established
-- `docs/GLOSSARY.md` (**patch**)
-  - a recurring term, variable, method label, or display name was standardized
-- `docs/RUNBOOK.md` (**rewrite**)
-  - the way to run, debug, export, or sync outputs changed
-- `docs/OVERVIEW.md` (**rewrite**)
-  - the project's high-level structure or main workstreams changed
-- `docs/README.md` (**patch**)
-  - the docs entry path or memory-system explanation changed
-
-### 2. Update Scaling Memory when the detail is too fine for the base layer
-
-Typical targets:
-
-- `docs/PROGRESS.md` (**patch**)
-  - module-level or workflow-level progress
-  - feature completed or started
-  - do NOT add dated changelog entries here — those belong in `archive/`
-- `docs/MAP.md` or `docs/PAPER_MAP.md` (**patch**)
-  - feature -> file mapping
-  - artifact -> runner -> upstream inputs mapping
-  - paper figure/table -> canonical outputs mapping
-
-### 3. Update Session Memory when context is useful but not yet stable
-
-Typical target:
-
-- `docs/SHORT_MEMORY/<date_or_session>_<topic>.md` (**append**)
-
-Use this when:
-
-- the session is long and compact risk is high
-- current understanding is useful but not yet stable enough for `STATUS`, `DECISIONS`, or `CONVENTIONS`
-- the next Agent session should inherit this context
-
-### 4. Update Historical Memory when the work should be preserved, not kept live
-
-Typical target:
-
-- `docs/archive/<date>_<topic>.md` (**append**)
-
-Use this when:
-
-- a troubleshooting cycle completed
-- an exploration ended
-- a failed direction or retrospective should be preserved
-- the content is valuable historically, but not part of the active project surface
+If a decision is superseded, append a new decision that references the old ID. Do not silently rewrite history.
 
 ## Workflow
 
-1. Collect facts from:
-   - the current conversation
-   - actual code changes
-   - executed commands / validations
-   - produced artifacts
-2. Read the relevant docs before editing.
-   - Never update a doc blindly from memory.
-   - **Read the YAML frontmatter to check `update_mode` before writing.**
-3. Classify each fact into one of four buckets:
-   - stable project truth
-   - detailed but active implementation context
-   - session-only context
-   - historical record
-4. For each target file, apply the correct update mode:
-   - `rewrite`: replace content with current-state snapshot
-   - `append`: add new entry without touching old ones
-   - `patch`: modify specific entries in place
-5. Keep claims aligned with implemented reality.
-   - no future work written as done
-   - no invented validation
-   - no fabricated decisions
-6. If nothing should change, explicitly say so.
+1. Collect verified facts from the conversation, actual diffs, tests, commands, and artifacts.
+2. Classify each fact as stable framework truth, detailed active state, session context, or historical record.
+3. Select the smallest set of target files.
+4. Apply each target's update mode and preserve its frontmatter.
+5. Cross-check related layers:
+   - implementation entry changed → consider `MAP.md`;
+   - module status changed → consider `PROGRESS.md` and concise `STATUS.md`;
+   - stable choice emerged → append `DECISIONS.md`;
+   - a stage settled → append `HISTORY.md` and trim stale `STATUS.md` milestones;
+   - custom memory directory added → patch `DIRS.md`;
+   - long session has unresolved context → add `SHORT_MEMORY/`.
+6. Validate paths, claims, and memory structure.
 
-## Decision Rules
+Do not update files merely to make every layer change. If no durable or handoff-worthy information emerged, say that no memory update was needed.
 
-Use these rules when deciding where something belongs:
+## Hard Rules
 
-- If the fact is stable and should be repeatedly consulted, prefer Base Memory.
-- If the fact is active but too detailed for the base layer, prefer Scaling Memory.
-- If the fact is useful but not stable yet, prefer Session Memory.
-- If the fact is complete and mainly useful for later retrospection, prefer Historical Memory.
+- Never invent completed work, tests, priorities, decisions, or historical rationale.
+- Keep framework memory compact and prevent linear growth.
+- Do not put raw discussion into stable memory.
+- Do not put dated narratives in `PROGRESS.md` or full file lists in `MAP.md`.
+- Do not create legacy `docs/`, `MEMORY_MANIFEST.yml`, `RUNBOOK.md`, or `memory-docs/README.md` unless the project independently uses them for a different purpose.
+- Preserve user changes and project-specific custom memory directories.
 
-## Writing Rules
+## Validate and Report
 
-- **Respect `update_mode`**: do not append to a `rewrite` file, do not rewrite an `append` file.
-- Preserve each file's role; do not collapse multiple roles into one doc.
-- Check the `not_for` field in frontmatter — it tells you what should go elsewhere.
-- Keep Base Memory concise.
-- Let `PROGRESS` and `MAP` hold detail when needed.
-- `DECISIONS.md` should record decisions, not raw discussion transcripts.
-- `SHORT_MEMORY` should not become a second archive.
-- `archive/` should not become a second `STATUS.md`.
-- `PROGRESS.md` is a checklist, not a changelog — dated narratives go to `archive/`.
+Prefer the project-local validator when installed:
 
-## Examples
+```bash
+python .memory-docs-tools/validate_memory_docs.py .
+```
 
-### Example: a new plotting rule stabilizes
+Otherwise run `scripts/validate_memory_docs.py` from the vibe-memory-system source against the project root.
 
-Update:
-
-- `docs/CONVENTIONS.md` (**patch**: add the new rule in the appropriate section)
-
-Maybe also:
-
-- `docs/DECISIONS.md` (**append**: add a new DEC entry if the rule came from a deliberate design choice)
-
-### Example: a paper figure now uses a new canonical output chain
-
-Update:
-
-- `docs/PAPER_MAP.md` or `docs/MAP.md` (**patch**: update the mapping row)
-- `docs/STATUS.md` (**rewrite**: refresh the current state if this changes the project status materially)
-
-### Example: a long debugging session found a likely cause, but the fix is not final
-
-Update:
-
-- `docs/SHORT_MEMORY/...` (**append**: create a new session note)
-
-Do not prematurely write it as a stable decision.
-
-### Example: an exploration ended and the rejected direction is worth remembering
-
-Update:
-
-- `docs/archive/...` (**append**: create a dated record)
-- `docs/DECISIONS.md` (**append**: add a DEC entry if there is now a stable "do not use this path" conclusion)
-
-### Example: project finished a major milestone, many things changed
-
-Update sequence:
-
-1. `docs/STATUS.md` (**rewrite**: refresh the entire current-state snapshot)
-2. `docs/PROGRESS.md` (**patch**: check off completed modules, add new in-progress items)
-3. `docs/OVERVIEW.md` (**rewrite**: only if the project's scope or architecture actually changed)
-4. `docs/DECISIONS.md` (**append**: only for decisions that became stable during this milestone)
-
-## Output
-
-When reporting back, summarize:
-
-- which docs were updated
-- what `update_mode` was applied to each
-- why those docs were the right layer
-- whether any docs were intentionally not updated
-- whether no update was needed
-
-## Hard Constraints
-
-- Do not invent completed work, test results, or decisions.
-- Do not let Base Memory bloat with session notes.
-- Do not forget `MAP` when implementation-chain knowledge changed.
-- Do not forget `SHORT_MEMORY` when session context would otherwise be lost.
-- Do not rely on the user to remember to update docs manually.
-- Do not add dated changelog entries to `PROGRESS.md` — use `archive/` instead.
-- **Always read frontmatter before editing any doc file.**
+Report the files changed, update mode used for each, why each layer was appropriate, validation results, and memory files intentionally left untouched.

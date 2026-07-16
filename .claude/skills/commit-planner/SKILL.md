@@ -1,6 +1,6 @@
 ---
 name: commit-planner
-description: Analyze staged, unstaged, and untracked changes; group them into functionally coherent commit batches; and recommend staging order, commit boundaries, and related living-doc references. Use when the working tree contains multiple kinds of changes and Codex needs to decide how many commits to make, which files belong together, and which docs under `docs/` should be updated or referenced.
+description: Analyze staged, unstaged, and untracked changes; group them into functionally coherent commit batches; and recommend staging order, commit boundaries, and related memory-docs references. Use when the working tree contains multiple kinds of changes and Codex needs to decide how many commits to make, which files belong together, and which project-memory files should be updated or referenced.
 ---
 
 # Commit Planner
@@ -13,7 +13,7 @@ Use this skill to decide what should be staged together, what should be split in
 Group changes by implemented behavior and commit intent, not by directory alone.
 
 Use repository living docs as context amplifiers, not as the sole classifier.
-Files should be grouped primarily by behavioral cohesion, then refined by `docs/STATUS.md`, `docs/DECISIONS.md`, `docs/CONVENTIONS.md`, and recent commit context when helpful.
+Files should be grouped primarily by behavioral cohesion, then refined by `memory-docs/STATUS.md`, `memory-docs/detail_mem/DECISIONS.md`, `memory-docs/CONVENTIONS.md`, and recent commit context when helpful.
 
 ## Workflow
 
@@ -25,9 +25,9 @@ Files should be grouped primarily by behavioral cohesion, then refined by `docs/
    - Read `git diff` for unstaged tracked files.
    - Inspect new files when they look like part of a feature slice.
 3. Read living docs when present.
-   - `docs/STATUS.md` for current phase, done items, and backlog.
-   - `docs/DECISIONS.md` for relevant decisions or superseding entries.
-   - `docs/CONVENTIONS.md` for workflow and repository rules.
+   - `memory-docs/STATUS.md` for current phase, done items, and backlog.
+   - `memory-docs/detail_mem/DECISIONS.md` for relevant decisions or superseding entries.
+   - `memory-docs/CONVENTIONS.md` for workflow and repository rules.
 4. Classify changes into functional groups.
    - Feature code
    - Tests
@@ -126,11 +126,11 @@ Backlog context helps interpret intent, but staged reality still wins.
 
 Use docs to sharpen commit boundaries.
 
-- `docs/STATUS.md`
+- `memory-docs/STATUS.md`
   - Use to judge whether a change is one milestone, a partial phase, or a follow-up cleanup.
-- `docs/DECISIONS.md`
+- `memory-docs/detail_mem/DECISIONS.md`
   - Use to connect code changes to decision IDs and see whether multiple files belong to one technical decision.
-- `docs/CONVENTIONS.md`
+- `memory-docs/CONVENTIONS.md`
   - Use to identify rule-driven changes that may deserve their own docs or conventions batch.
 
 If living docs and code reality disagree, prefer code reality and mention the mismatch.
@@ -185,7 +185,7 @@ This skill plans commits; `$commit-messages` writes the message.
 Working Tree Summary:
 - staged: .gitignore
 - unstaged: none
-- untracked: docs/STATUS.md, docs/DECISIONS.md, src/academic_tools/models/queue.py
+- untracked: memory-docs/STATUS.md, memory-docs/detail_mem/DECISIONS.md, src/academic_tools/models/queue.py
 
 Recommended Commit Batches:
 1. repo hygiene
@@ -203,7 +203,7 @@ Recommended Commit Batches:
    - Why grouped together: one functional feature slice with supporting test coverage
    - Suggested staging command: git add ...
    - Suggested type/scope: feat(status)
-   - Related live docs: docs/STATUS.md, DEC-007, DEC-008, DEC-009 in docs/DECISIONS.md
+   - Related live docs: memory-docs/STATUS.md, DEC-007, DEC-008, DEC-009 in memory-docs/detail_mem/DECISIONS.md
    - Exclusions / follow-up: batch tools remain separate
 ```
 

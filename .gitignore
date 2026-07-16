@@ -1,2 +1,7 @@
 .DS_Store
+
+# vibe-memory-system 自用记忆 —— 记录本项目自身演进，不上传 GitHub
+project-memory-docs/
+
+# 历史忽略项（保留以防残留引用）
 docs-in-a-real-project/
