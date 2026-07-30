@@ -24,6 +24,15 @@ not_for: "代码位置（-> MAP），术语（-> GLOSSARY）"
 | `SHORT_MEMORY/` | 会话级临时上下文交接 | 长会话中断、Agent 间交接 | append |
 | `archive/` | 已完成 / 旧的归档记录 | 方案定稿、复盘、旧快照 | append |
 
+## 可选目录
+
+| 目录 | 用途 | 什么时候用 | 更新模式 |
+|---|---|---|---|
+| `research/` | 实验协议、artifact、结果、解释与 claim boundary | 项目持续产生需要比较和追溯的实验时 | append |
+
+只有真正需要时才创建可选目录。若启用 `research/`，可从 `init-memory` skill 的
+asset 创建 `EXPERIMENT_LEDGER.md`；当前 TODO、下一步和机器实时状态仍不写进账本。
+
 ## 自建目录（按需追加）
 
 > 命名建议用语义清晰的英文 / 拼音目录名，如 `feature/`、`handover/`、`ops/`、
@@ -37,4 +46,4 @@ not_for: "代码位置（-> MAP），术语（-> GLOSSARY）"
 
 - 新建子文件夹后**必须**回这里登记，否则别的 Agent 不知道它存在。
 - 目录废弃时，在此标注（不要直接删，以免历史断链），或在 `archive/` 留个说明。
-- 子文件夹内部仍遵循 memory-docs 的"框架 + 导航"哲学：详细但不啰嗦。
+- 子文件夹内部仍遵循 one-owner：详细信息可以充分，但不要和另一个活跃 owner 重复。

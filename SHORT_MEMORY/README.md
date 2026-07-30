@@ -30,3 +30,13 @@ not_for: "稳定状态（-> STATUS/PROGRESS），稳定决策（-> DECISIONS）�
 
 - `YYYYMMDD_topic.md`
 - `session_<id>_topic.md`
+
+并行工作可以保留多份主题明确的 handoff。若项目需要一个默认恢复入口，可维护
+`CURRENT.md`：它只保留相对稳定 owner 的**会话增量**和链接，不复制整份 STATUS。
+
+## 生命周期
+
+1. 新会话先读仍活跃的 handoff，并验证其中假设。
+2. 稳定结论分别蒸馏到 `STATUS`、`PROGRESS`、`DECISIONS` 或其他 owner。
+3. 任务结束后删除纯临时恢复提示，或将仍有复盘价值的记录移入 archive。
+4. 已失效 handoff 不得继续声称自己是“当前”入口。
