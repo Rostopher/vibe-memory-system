@@ -1,0 +1,4 @@
+interface:
+  display_name: "Init Memory"
+  short_description: "Initialize concise project memory from repository evidence"
+  default_prompt: "Use $init-memory to initialize the installed memory-docs from repository evidence while preserving provenance and existing content."

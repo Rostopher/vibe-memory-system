@@ -17,14 +17,16 @@ not_for: "项目本身的内容（-> OVERVIEW 等其他文件）"
 
 ## 核心哲学
 
-memory-docs **不是**项目的完整文档，**不是**API 手册，**不是**代码目录册。
+memory-docs **不是**项目的完整 API 手册或代码目录册。
 
 它是**框架 + 导航**：
 - **框架**：项目是什么、现在在做什么、怎么来的、有什么约定 —— 这些几乎不随项目增长。
 - **导航**：当 Agent 需要某个功能的细节时，知道去哪个文件 / 哪个入口钻。
+- **证据保真**：活跃层只保留可行动结论；仍有复查价值的来源和细节进入可检索 archive。
 
 凡是要随项目**线性膨胀**的东西（全部 API 端点、全部组件、全部数据表……），
-都**不属于** memory-docs，应该留在代码里，或放进按需自建的子文件夹（见路由层）。
+都不应堆进框架层；优先留在代码或原始产物中，确需长期解释时放进按需自建的
+详细 owner，完成或被替代后再归档。
 
 ---
 
@@ -56,9 +58,10 @@ memory-docs **不是**项目的完整文档，**不是**API 手册，**不是**�
 |---|---|---|
 | `<memory-docs>/detail_mem/MAP.md` | 某个**概念 / 功能**对应代码的**入口文件**在哪 | patch |
 | `<memory-docs>/detail_mem/PROGRESS.md` | 各模块**实现到什么程度**（清单，非流水账） | patch |
-| `<memory-docs>/detail_mem/DECISIONS.md` | 关键**决策**为什么这么定（档案，按条） | append |
+| `<memory-docs>/detail_mem/DECISIONS.md` | 当前决策生命周期、结论与详细理由 | append（registry 可 patch） |
 | `<memory-docs>/SHORT_MEMORY/` | 会话级**临时上下文**交接 | append |
 | `<memory-docs>/archive/` | 已完成 / 旧的**历史记录** | append |
+| `<memory-docs>/research/EXPERIMENT_LEDGER.md` | 可选：实验协议、结果、证据边界 | append |
 | `<memory-docs>/<自建>/` | Agent 按需新建的详细页（见 DIRS.md） | append |
 
 ---
@@ -80,7 +83,17 @@ memory-docs **不是**项目的完整文档，**不是**API 手册，**不是**�
 - 想了解某个决策的来龙去脉 → `detail_mem/DECISIONS.md`
 - 不知道某个子文件夹是干嘛的 → `DIRS.md`
 - 接手未完成的会话 → `SHORT_MEMORY/`
+- 查实验协议、结果或 claim boundary → `research/EXPERIMENT_LEDGER.md`（若存在）
 - 翻旧账 / 复盘 → `archive/`
+
+### 条件式历史检索
+
+普通进入项目时不要预载全部历史。只有在判断 prior work、避免重复实现、重开旧路线、
+反转稳定决策、诊断回归或解释原因时，才用 2-4 个主题词及别名检索
+`DECISIONS`、`STATUS/HISTORY`、实验账本、计划 / 研究记录、archive 文件名 /
+manifest 和相关 Git。manifest 没有路由时，再检索匹配的 flat archive note。
+只打开有用命中，不停在第一个结果；确认 proposal、pilot、confirmation、closure /
+superseded 的完整生命周期。当前 owner 优先，并用代码或产物核验关键结论。
 
 ---
 
@@ -91,9 +104,14 @@ memory-docs **不是**项目的完整文档，**不是**API 手册，**不是**�
 ### 通用规则
 
 - 写入前先判断：这条信息**稳定**了吗？属于哪一层？
+- 每类可重复查询的事实只选一个**详细 owner**；其他文件只写本地需要的结论和链接。
+- `STATUS.md` 拥有项目级当前快照；`detail_mem/PROGRESS.md` 拥有模块级实现状态。
 - 框架层文件**不能无限增长**。若某段内容开始膨胀，把它移到详细层或子文件夹。
+- 压缩或归档前，先把仍然有效的结论蒸馏进 owner；不要把活跃 blocker 藏进 archive。
 - 代码与文档冲突时，**以代码为准**，并同步修正或标记文档。
 - 不把未稳定的讨论直接写成事实。
+- 计划是 proposal，不是当前事实；完成、放弃或替代后要留下
+  closure / superseded 指针，指向当前 owner、决策或 archive manifest。
 
 ### 常见工程事件 → 更新哪个文件
 
@@ -104,13 +122,27 @@ memory-docs **不是**项目的完整文档，**不是**API 手册，**不是**�
 | 修了一个 bug | `STATUS.md` 一句话 | 复杂根因可写进自建子文件夹 |
 | 加了一张数据库表 / 字段 | `detail_mem/MAP.md`（表→入口文件） | 重大变更记 `detail_mem/DECISIONS.md` |
 | 做了一个重要架构选择 | `detail_mem/DECISIONS.md`（一条） | — |
+| 完成一次可复用实验 | `research/EXPERIMENT_LEDGER.md`（若已启用） | `STATUS.md` 只留当前影响 |
 | 完成一段会话、要交接 | `SHORT_MEMORY/`（一篇） | — |
 | 某方案定稿、沉淀下来 | `HISTORY.md`（时间线条目） | 旧 STATUS 条目可清掉 |
+| 一组来源完成 / 被替代 | `archive/YYYYMMDD_topic/` + manifest | 先更新对应 live owner |
 | 建了一个新的子文件夹 | `DIRS.md`（登记一行） | — |
 
 > `detail_mem/MAP.md` 只记**概念 → 入口文件**（1-2 个文件），
 > **不要**记全量端点 / 全量组件 / 全量字段清单。
 > 全量信息留给代码本身。
+
+### 轻量健康检查
+
+安装了本仓库的工具后运行：
+
+```bash
+python3 .memory-docs-tools/validate_memory_docs.py .
+```
+
+结构错误会阻断；断链、膨胀、陈旧、异常超长普通 prose 单行、长段重复和 archive
+可检索性属于 warning。warning 是人工判断入口，不会自动删除、归档或重写内容；
+需要在自动化中阻断时使用 `--strict`。
 
 ---
 
@@ -119,7 +151,7 @@ memory-docs **不是**项目的完整文档，**不是**API 手册，**不是**�
 把整个文件夹复制进你的项目，改名为 `memory-docs/`，然后：
 
 1. 把文件里所有 `<memory-docs>/` 占位换成 `memory-docs/`。
-2. 让 Agent 读 `README.md`（本文件）建立认知。
+2. 让 Agent 读 `INDEX.md`（本文件）建立认知。
 3. 让 Agent 用 `init-memory` 之类的能力扫描仓库，把模板填成真实内容。
 
 如果你的项目根目录已有 `AGENTS.md`，把本项目 `AGENTS.md` 中的

@@ -4,12 +4,16 @@ update_mode: rewrite
 role: "现在在做什么 —— 当前焦点 + 最近 3-5 条里程碑（快照，非流水账）"
 read_when: "进入项目、规划工作、问当前状态时"
 not_for: "模块级细节（-> PROGRESS），历史演变（-> HISTORY），决策来由（-> DECISIONS）"
+line_budget: 160
+stale_after_days: 14
 ---
 
 # Project Status
 
 > **本文件只保留"当前快照"。** Done 区只放最近 3-5 条里程碑，每条**一句话**。
 > 再往前的内容定期**沉淀进 `HISTORY.md`**，不要在这里无限堆积。
+> 本文件拥有项目级焦点、优先级和阻塞摘要；模块级状态、卡点和下一步由
+> `detail_mem/PROGRESS.md` 拥有，这里只写其对项目主线的影响并链接过去。
 >
 > 更新时间：`<YYYY-MM-DD>`
 
@@ -28,9 +32,7 @@ not_for: "模块级细节（-> PROGRESS），历史演变（-> HISTORY），决�
 
 ## In Progress
 
-- [ ] `<当前事项>`
-  - 卡点：
-  - 下一步：
+- `<跨模块工作流或项目级事项>` → 细节见 `detail_mem/PROGRESS.md`
 
 ## Backlog
 
