@@ -1,0 +1,4 @@
+interface:
+  display_name: "Evolutionary Development"
+  short_description: "Guide exploration, integration, verification and consolidation"
+  default_prompt: "Use $evolutionary-development to choose an appropriate development path, verify affected behavior, and identify any consolidation that needs my decision."
