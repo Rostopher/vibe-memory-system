@@ -17,13 +17,16 @@ ledger.
 
 ## Workflow
 
+An explicit initialization or protocol-migration request authorizes that work without another
+memory closeout question. Installation alone is not a standing instruction to rewrite memory.
+Preserve later choices to defer updates or let the user summarize a discussion themselves.
+
 ### 1. Confirm the installed contract
 
-1. Confirm `memory-docs/INDEX.md` exists. If it does not, ask the user to install
-   the template with this repository's installer; do not invent a parallel
-   layout.
-2. Read `AGENTS.md`, `memory-docs/INDEX.md`, and each standard file's
-   frontmatter.
+1. Resolve the memory root and entry from repository instructions. Prefer `memory-docs/INDEX.md`;
+   accept an existing registered entry such as `docs/README.md`. If none exists, use the
+   installer within the authorized setup scope rather than inventing a parallel layout.
+2. Read `AGENTS.md`, the actual memory entry and relevant standard-file frontmatter.
 3. Classify the installed memory as:
    - **template**: mostly placeholders;
    - **partial**: real content mixed with placeholders;
@@ -33,11 +36,13 @@ ledger.
 5. For an explicit migration of initialized memory:
    - never use template replacement to perform the migration;
    - preserve current owners, frontmatter, custom directories, and project rules;
-   - merge only missing protocol text into `AGENTS.md`, `INDEX.md`, and
-     `archive/README.md`;
+   - merge the work-unit closeout gate, retrieval rules and lifecycle protocol into the actual
+     `AGENTS.md`, memory entry and related protocol owners; retain project business contracts;
    - add the decision registry progressively from existing stable IDs and
      high-signal current decisions rather than rewriting all history at once;
-   - archive detail only after its live conclusion and pointer are secure.
+   - archive detail only after its live conclusion and pointer are secure;
+   - keep old IDs searchable through topic indexes without retaining every row in the current view;
+   - do not migrate `_test_` scripts or fill all test gaps unless separately requested.
 
 ### 2. Establish repository truth
 

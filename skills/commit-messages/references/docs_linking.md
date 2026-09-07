@@ -46,6 +46,10 @@ Live Docs:
 
 ## Selection Heuristics
 
+These are reference choices, not instructions to create memory records. Use already-existing
+or authorized records; a deferred memory update is compatible with a complete code commit.
+Do not invent links or trigger writing after each small commit.
+
 - If the change introduces or refines a technical decision, include `detail_mem/DECISIONS.md`.
 - If the change corresponds to a milestone or phase boundary, include `STATUS.md`.
 - If the change enforces or updates a repository rule, include `CONVENTIONS.md`.

@@ -1,4 +1,4 @@
 interface:
   display_name: "Update Living Docs"
-  short_description: "Distill verified changes and keep project memory healthy"
-  default_prompt: "Use $update-living-docs to distill this work into the correct memory-docs owner, preserve useful detail, and run the health check."
+  short_description: "Review work closeout and maintain memory in approved batches"
+  default_prompt: "Use $update-living-docs to update memory for this completed work, preserve useful evidence, and validate the confirmed scope."

@@ -26,6 +26,11 @@ The active memory surface should make these answers easy to find:
 
 Health checks protect retrieval and provenance. They do not optimize documents for minimum size and do not authorize automatic deletion or rewriting.
 
+Apply repairs within a user-confirmed memory batch or an explicit maintenance request. During
+ordinary implementation, report discovered discrepancies for closeout instead of immediately
+editing memory. Do not repeat a permission question for work already authorized.
+Long histories, troubleshooting records and handoffs are valid; read them on demand.
+
 ## 2. Conditional Historical Retrieval Gate
 
 Do not preload historical memory for an ordinary documentation update. Apply this gate before:
@@ -50,7 +55,9 @@ Use a bounded retrieval sequence:
 
 A plan authorizes exploration; it does not prove that the work ran or that its proposal became current truth. A positive pilot does not override a later failed confirmation. If the lifecycle remains ambiguous, report that uncertainty rather than inventing closure.
 
-When this gate reveals a durable retrieval gap, repair the smallest appropriate owner, registry row, lifecycle pointer, or archive manifest. Do not copy the whole historical chain into `STATUS.md`.
+When this gate reveals a durable retrieval gap, propose it for work-unit closeout; if maintenance
+is already authorized, repair the appropriate owner, index, lifecycle pointer or manifest.
+Do not copy the whole historical chain into `STATUS.md`.
 
 ## 3. Optional Health Metadata
 
@@ -153,7 +160,12 @@ Route important owners from `memory-docs/INDEX.md` or `memory-docs/DIRS.md`. Put
 
 Keep the decision registry compact and searchable. Patch a row's status, one-line current conclusion, natural keywords, and detail pointer as the lifecycle changes; retain the stable ID. Append detailed rationale or a dated closure note instead of silently rewriting historical reasoning.
 
-Never reuse a decision ID. If imported histories contain colliding IDs, qualify legacy entries with a stable source or date namespace. When `DECISIONS.md` approaches its advisory budget, archive full rationale for closed or superseded entries only after the registry retains a valid pointer to it.
+Never reuse a decision ID. Qualify colliding imported IDs with a stable source or date namespace.
+The current view shows applicable decisions, not every historical ID. As it grows, keep complete
+lookup rows in discoverable topic indexes with keywords, lifecycle, replacement and detail links.
+Retain routes from DECISIONS and preserve old references with redirects or repaired callers.
+Archive rationale only after its live conclusion and historical lookup path are secure.
+An old but governing decision remains visible; a recent local detail need not become a global rule.
 
 Treat plans as proposals. When a plan completes, stops, or is replaced, leave an explicit closure or superseded pointer from the plan or its registered entry to the current owner, decision, confirming evidence, or archive manifest. Do not let an old plan remain the easiest apparent statement of current state.
 
@@ -194,6 +206,10 @@ An empty label is not a completed field. `Distilled into: detail_mem/DECISIONS.m
 Do not continuously rewrite archived material to match current truth. Add a dated correction note or update the active owner. Never archive an unresolved blocker, a current operating procedure, active evidence, or the only copy of a current decision.
 
 ## 7. Session Handoffs
+
+Write handoffs when explicitly requested or within the confirmed memory scope. Do not bypass
+a user's choice to defer memory by automatically creating a session note. A detailed handoff
+may be long when necessary; its ownership is temporary continuation context, not a word limit.
 
 `SHORT_MEMORY/` is continuation context, not another project-status database.
 

@@ -2,153 +2,100 @@ Always respond in Chinese-simplified.
 
 # AGENTS.md Template
 
-这个文件是项目级 Agent 入口。复制到目标仓库后，可在保留基础规则的前提下，
-追加该仓库特有的任务说明、目录约定、运行方式和禁止事项。
-
----
+这是项目级 Agent 入口。安装到目标仓库时合并项目约定，保留用户已有规则。
 
 ## 基础原则
 
-- 优先遵守当前仓库的代码、脚本、测试和最新结果；文档与实现不一致时，**以实现为准**，并明确指出不一致。
-- 不提交本机绝对路径、私有虚拟环境路径、账号、密钥、token 或机器特定配置。
-- 用可移植路径示例：`.venv`、`$HOME`、`<project-root>`。
-- 不回滚或覆盖用户已有改动，除非用户明确要求。
-- 改之前先理解现有结构和本地约定，优先沿用仓库已有模式。
+- 修改前理解现有结构、公共契约和本地约定，明确本次工作范围。
+- 文档与代码、测试或最新结果不一致时，核验并说明差异；不要把错误实现当成新的正确性标准。
+- 不覆盖或回滚用户已有改动，不提交密钥、账号、机器特定配置或私有绝对路径。
+- 规则围绕真实风险和可验证结果制定；根据实践证据调整流程，不仅凭模型版本放宽约束。
 
----
+## 开发与验证
 
-## memory-docs 使用指引
+- 按不确定性选择工作方式：未知技术路线用隔离 demo / side project；局部未知用
+  `probe_<用途>`；实现路径明确时直接修改。不要求所有功能先做 demo 或先写测试。
+- Explore 以回答本轮问题为完成条件。区分可行、不可接受、条件受阻与证据不足；
+  可验证成功而暂不接入。接入、提交、部署分别遵循用户已授权的范围。
+- Integrate 应有明确模块归属、完整运行路径及受影响行为的验证。接入必需的整理当次完成；
+  允许有边界、有理由的局部技术债，在交付时说明。
+- 日常整理服务当前修改。版本节点、累计改动或 commit 提醒 Agent 检查结构；
+  重复规则、职责混杂、越界依赖等证据决定是否提出 Consolidate 建议。
+  提案说明问题、范围和收益，由用户决定是否及何时开展；已有授权不重复询问。
+  暂缓后只在新证据或约定复查节点再提醒。
+- Rearchitect 由容量、可靠性、数据模型或开发成本的证据触发，先界定问题与迁移范围，
+  再由用户决定。不要把功能开发自行扩张为跨模块整合或整体重写。
+- 新探针使用 `probe_` 前缀；正式测试采用框架约定（Python 通常为 `test_*.py`）。
+  探针观察结果，测试持续保护明确行为。既有 `_test_` 按用途迁移，未经安排不批量改名。
+- 按影响范围验证：界面检查交互与必要构建，bug 保留有价值的回归证据，功能验证新旧行为，
+  公共接口、权限、计费及共享数据变更扩大检查范围。运行项目已约定的核心检查，
+  不默认每轮运行全库测试。不能完成的验证应如实报告。
+- 逐步建立关键功能 / 契约到测试和运行命令的映射，标明缺口。它属于测试入口，
+  memory 只保留导航；不要把 probe 跑通等同于长期测试覆盖。
+- 结束探索时说明代码用途和去向；退役前确认代码版本、必要数据和运行条件可恢复。
+  有示例、基准或待接入价值的 demo 可以保留，正式系统不依赖临时 demo。
 
-本项目用 `memory-docs/` 文件夹作为 Agent 的项目记忆层。
-**核心哲学**：让 Agent 快速建立**框架认知**并知道**去哪找细节**，
-而不是把项目的每个 API、组件、字段都塞进记忆。
+复杂开发、探索与整合使用 `evolutionary-development`；研究型 Python 工作另用
+`research-engineering`。skill 不可用时以上原则仍适用。
 
-### 三层结构
+## 项目记忆
 
-| 层 | 文件 | 性质 |
-|---|---|---|
-| **框架层**（进项目必读，永远精简） | `OVERVIEW` `STATUS` `HISTORY` `CONVENTIONS` `GLOSSARY` | 增长极慢 |
-| **路由层** | `DIRS` | 查"详细层里有什么" |
-| **详细层**（按需读，随项目生长） | `detail_mem/MAP` `detail_mem/PROGRESS` `detail_mem/DECISIONS` `SHORT_MEMORY/` `archive/` `<自建>/` | 保留详细 owner 与证据 |
+本项目使用 `memory-docs/`，入口为 `memory-docs/INDEX.md`。已有项目可以沿用其注册的
+记忆目录与入口，不为迁移协议改名或覆盖真实内容。
 
-入口与完整说明见 `memory-docs/INDEX.md`。
+### 按任务读取
 
-### 阅读顺序
+进入项目先读入口、`OVERVIEW.md`、`STATUS.md`，以及与修改有关的 `CONVENTIONS.md`。
+其余按需：代码定位读 `detail_mem/MAP.md`，模块状态读 `PROGRESS.md`，设计取舍读
+`DECISIONS.md` 当前视图，术语读 `GLOSSARY.md`，目录路由读 `DIRS.md`。
+`HISTORY.md`、`SHORT_MEMORY/`、archive 和实验详情不默认全部加载。
 
-**进入项目（最小集）**：
+在重开旧路线、避免重复实现、反转稳定决策、诊断回归或解释历史时，先用主题词及别名
+检索当前 owner、决策索引、相关记录与 Git。追到 proposal、pilot、confirmation、
+closure / superseded 的实际状态，不停在首个命中。缺少文件不等于工作从未发生。
 
-1. `memory-docs/OVERVIEW.md` —— 项目是什么
-2. `memory-docs/STATUS.md` —— 现在做什么
-3. `memory-docs/CONVENTIONS.md` —— 有什么硬规则
+### 更新时机
 
-**按需查阅**：
+- 以用户的一次要求或约定的工作单元收束为更新节点，不随每个小改动、每次试错或 commit
+  反复更新 memory。实施验证完成即可提出收尾，commit 和部署均不是必要前提。
+- 到交付节点主动询问：“这轮工作是否已经收束，是否现在更新 memory docs？”
+  结合完整过程提出值得保留的内容，用户确认范围后集中写入。
+- 用户已明确要求更新、初始化、迁移或授权某个范围的记忆维护时，直接完成该范围；
+  不重复索要确认。要求用户自行整理、暂缓或不更新时尊重该决定。
+- 复杂排障、失败路线、研究结果与交接允许完整长文。控制更新频率与默认读取量，
+  不以短篇幅为目标。工作中发现旧记忆失实，先说明并列为收尾修正项，避免继续误用。
+- 此门槛针对项目记忆沉淀；用户要求编辑的文档、代码所需接口规范或明确授权的交接
+  按原任务完成，不因等待额外的记忆确认而搁置。
 
-- 不懂术语 → `GLOSSARY.md`
-- 想知道项目演变 → `HISTORY.md`
-- 找代码入口 → `detail_mem/MAP.md`
-- 看模块完成度 → `detail_mem/PROGRESS.md`
-- 了解决策来由 → `detail_mem/DECISIONS.md`
-- 不认识某子文件夹 → `DIRS.md`
-- 接手未完成会话 → `SHORT_MEMORY/`
-- 查实验协议、结果和证据边界 → `research/EXPERIMENT_LEDGER.md`（若启用）
-- 翻旧账 → `archive/`
+### 确认后的归属
 
-若某文件不存在，跳过即可；不要为满足模板而虚构内容。
+- 当前项目快照 → `STATUS.md`；模块状态 → `detail_mem/PROGRESS.md`。
+- 当前规则 → `CONVENTIONS.md`；概念到少数代码入口 → `detail_mem/MAP.md`。
+- 重要取舍 → 决策当前视图与按需详情；旧 ID、证据、替代关系保留可检索路径。
+  按当前适用性和影响范围展示，不按新旧日期判断重要性。
+- 探索结论 → 对应主题记录；科研证据可用可选 `research/EXPERIMENT_LEDGER.md`。
+  记录目标、条件、观察、局限、失败 / 停止原因、重试条件、所属仓库与可恢复版本。
+- 阶段演进 → `HISTORY.md`；待接续上下文 → `SHORT_MEMORY/`；历史详情 → `archive/`。
+- 每类事实有一个详细 owner，其他位置引用；新增记忆子目录同步登记 `DIRS.md`。
+  先保存证据与可检索指针再压缩，不能为行数预算删除有价值的历史或隐藏当前问题。
 
-### 条件式历史检索
+完整写入与健康检查流程由 `update-living-docs` 定义。已安装校验器时，在确认后的
+更新批次前后运行 `python3 .memory-docs-tools/validate_memory_docs.py .`。
 
-普通任务不要预载全部历史。只有在准备断言"以前没做过"、避免重复实现、重开旧路线、
-推翻稳定决策、诊断回归或解释"为什么"时，才先用 2-4 个主题词及别名检索
-`DECISIONS`、`STATUS/HISTORY`、实验账本、计划 / 研究记录、archive 文件名 /
-manifest 和相关 Git。若 manifest 没有路由到主题，再检索匹配的 flat archive note。
-只读有用命中，但不要停在第一个结果；要确认
-proposal → pilot → confirmation → closure / superseded 的最终阶段。
-当前 owner 优先，重要结论再用代码、测试或产物核验。完整流程见 `update-living-docs`。
+## Skills 与环境
 
-### 更新协议（关键）
-
-每类信息都有明确归属，Agent 不必猜"这条记哪"。
-
-**通用规则**：
-- 每类可重复查询的事实只维护一个详细 owner；非 owner 只写本地影响和链接。
-- `STATUS.md` 拥有项目级当前快照；`detail_mem/PROGRESS.md` 拥有模块级状态、卡点和下一步。
-- 框架层文件**不能无限增长**；某段内容开始膨胀就移到详细层 / 子文件夹。
-- 先把稳定结论蒸馏进 owner，再归档完成、替代、拒绝或被压缩的来源细节。
-- 不要把活跃 blocker、当前 TODO 或机器实时状态藏进 archive / 实验账本。
-- 代码与文档冲突，**以代码为准**，并修文档或标记。
-- 不把未稳定讨论直接写成事实。
-- 计划默认只是 proposal，不代表当前状态；完成、放弃或被替代后必须留下
-  closure / superseded 指针，指向当前 owner、决策或 archive manifest。
-
-**工程事件 → 更新哪个文件**：
-
-| 发生了什么 | 主要更新 | 附带 |
-|---|---|---|
-| 新增 / 改 API 端点 | `detail_mem/MAP.md` 加**一行**（概念→入口文件） | `STATUS.md` 一句话 |
-| 新增 / 改前端功能 | `detail_mem/MAP.md` 加一行 | `STATUS.md` 一句话 |
-| 修 bug | `STATUS.md` 一句话 | 复杂根因写进自建子文件夹 |
-| 加数据表 / 字段 | `detail_mem/MAP.md` 加一行 | 重大变更记 `detail_mem/DECISIONS.md` |
-| 重要架构选择 | `detail_mem/DECISIONS.md` 加一条 | — |
-| 完成可复用实验 | `research/EXPERIMENT_LEDGER.md`（若启用） | `STATUS.md` 只留当前影响 |
-| 会话要交接 | `SHORT_MEMORY/` 写一篇 | — |
-| 方案定稿沉淀 | `HISTORY.md` 加时间线条目 | 旧 STATUS 条目可清掉 |
-| 多份来源完成 / 被替代 | `archive/YYYYMMDD_topic/` + manifest | 先更新对应 live owner |
-| 建新子文件夹 | `DIRS.md` 登记一行 | — |
-
-> **`detail_mem/MAP.md` 只记"概念 → 入口文件"（1-2 个），不要记全量清单。**
-> 全量信息留在代码里。
-
-### 结构与健康检查
-
-如果项目安装了本地校验器，在 memory-docs 初始化或结构变更后运行：
-
-```bash
-python3 .memory-docs-tools/validate_memory_docs.py .
-```
-
-结构问题是 error；断链、文档膨胀、显式状态陈旧、异常超长普通 prose 单行、
-长段重复和 archive manifest 问题是 warning。warning 默认不阻断，需要严格模式时
-使用 `--strict`。检查器不会自动删除、归档或重写内容。
-
-当前标准不包含 `MEMORY_MANIFEST.yml`、`RUNBOOK.md` 或 `memory-docs/README.md`；
-除非目标项目另有独立用途，不要恢复旧体系文件。
-
----
-
-## Skills 使用
-
-- Skill 的完整流程由各自 `SKILL.md` 定义，本文件只说明何时用。
-- **首次接入**：刚把 memory-docs 安装到已有仓库时，用 `init-memory` 扫描仓库，把模板一次性填成真实内容。
-- 做完有意义的代码 / 文档 / 决策 / 映射 / 实验工作后，优先用 `update-living-docs`
-  把验证过的事实写进 owner，并运行轻量健康检查。
-- 准备提交时用 `commit-planner` 拆批；要完整流程用 `commit-pipeline`。
-- 涉及 Python 数据处理、回归、诊断、测试、绘图时，用 `research-engineering`。
-- 某个 skill 当前环境不可用时，按下面的 fallback 执行，并说明降级原因。
-- 若 `.claude/skills/` 或 `.agents/skills/` 中存在
-  `.vibe-memory-system-skills.json`，manifest 列出的 skill 是安装生成物：
-  不要直接修改；从 canonical `skills/` 更新并重新同步。未列出的其他 skill
-  仍归项目或用户所有，不得顺带删除。
-
-## Python / 数据处理 fallback
-
-没有 `research-engineering` 但任务涉及 Python / 数据 / 回归 / 测试 / 绘图时：
-
-- 路径定位基于 `pathlib.Path` 与 `__file__`，不依赖 `cwd` 或裸相对路径。
-- 默认先写可被标准测试发现的 `test_*.py`，或先做最小诊断脚本，再决定是否动核心代码。
-- 巨型文本 / JSON / JSONL / CSV 先做头部预览、抽样或流式读取，别整文件加载进上下文。
-- 结果文件、日志、图表、缓存沿脚本所在目录或父目录输出。
-- 暴露真实错误；不预埋静默 fallback、空值替代或 `except: continue`。
-- 若 fallback 影响研究口径、样本定义、统计含义或下游解释，先停下来向用户确认。
-
----
+- 首次初始化用 `init-memory`；提交拆批用 `commit-planner`，完整提交用 `commit-pipeline`。
+  提交授权不自动要求新增记忆记录，记忆也不要求必须先提交。
+- 新建或调整研究项目目录职责用 `research-scaffold`，沿用已有结构和实际记忆入口。
+- `.claude/skills/` 或 `.agents/skills/` 中同步 manifest 所拥有的 skills 是安装产物；
+  修改 canonical `skills/` 后再按授权同步，不顺带覆盖未管理的 skills。
+- Python 路径使用 `pathlib.Path`，按脚本资源、项目配置或显式输入定位；输出路径可配置、
+  可追踪，不隐式依赖进程 cwd，也不强制所有产物贴着代码保存。
+- 体量未知的大数据先预览或抽样，再按规模选择全量、分块或流式读取；不无必要整文件加载进上下文。
+- 优先项目 `uv + venv`，否则使用已可用且兼容的环境，不把个人环境路径写入公共规则。
+- 错误和降级须可见、可追踪；既有授权内的常规重试可自行处理。
+  改变样本定义、研究口径、统计含义或产品承诺的替代策略，未获授权时先确认。
 
 ## 仓库特定补充
 
-复制到目标仓库后，在此追加该项目自己的规则。例如：
-
-- 主线开发目录：
-- legacy / 只读目录：
-- 默认运行环境：
-- 关键命令：
-- 禁止手改的自动生成产物：
-- 必须一致的展示命名 / 图表规范 / API 契约：
+在目标仓库补充实际主线目录、只读边界、环境、运行命令、关键契约和测试入口。

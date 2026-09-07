@@ -25,10 +25,14 @@ Create commit batches that are:
 1. Isolate independent hygiene changes first.
 2. Identify the largest coherent feature slice.
 3. Attach matching tests unless they clearly need a separate follow-up.
-4. Decide whether docs belong with the feature or as a follow-up docs batch.
+4. Decide whether existing or authorized docs belong with the feature or in another batch.
 5. Leave future-phase files out of the current batch.
 
 ## Docs Heuristics
+
+Memory is reviewed at a completed work unit and written after confirmation or an explicit
+maintenance request. A commit alone does not require new memory. Respect deferral and do not
+create a mandatory follow-up docs batch without the user's decision.
 
 - If `memory-docs/detail_mem/DECISIONS.md` records a decision implemented by the code, reference that decision in the feature batch.
 - If `memory-docs/STATUS.md` marks the current feature as done or in-progress, use it to frame whether the batch is complete or partial.

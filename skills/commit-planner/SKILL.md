@@ -13,6 +13,10 @@ Use this skill to decide what should be staged together, what should be split in
 Group changes by implemented behavior and commit intent, not by directory alone.
 
 Use repository living docs as context amplifiers, not as the sole classifier.
+
+Commit planning does not authorize memory writing. Use existing records and approved changes;
+respect work-unit closeout and user choices to defer or write memory themselves. Missing a new
+memory entry alone does not make an otherwise complete code batch incomplete.
 Files should be grouped primarily by behavioral cohesion, then refined by `memory-docs/STATUS.md`, `memory-docs/detail_mem/DECISIONS.md`, `memory-docs/CONVENTIONS.md`, and recent commit context when helpful.
 
 ## Workflow
@@ -91,12 +95,12 @@ Examples:
 
 - implementation file staged, but matching test file is unstaged
 - pipeline change staged, but new supporting model file is unstaged
-- feature code staged, but the relevant living-doc update is missing
+- feature code staged, but an already-agreed companion document is missing
 
 When this happens, recommend either:
 
 - stage the related files together, or
-- intentionally split the docs/config into a follow-up batch and say why
+- intentionally split authorized docs/config into a follow-up batch and say why
 
 ### 3. Keep hygiene changes separate when possible
 
@@ -111,6 +115,9 @@ Example:
 should usually not be mixed into a feature commit unless they are strictly required for that feature.
 
 ### 4. Docs can be attached or split
+
+Apply these strategies to existing or authorized document work. Ask about memory at a work-unit
+delivery point, not after every batch, and do not infer approval from a commit request.
 
 Choose one of two strategies and explain the tradeoff:
 

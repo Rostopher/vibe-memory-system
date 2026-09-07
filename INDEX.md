@@ -1,158 +1,111 @@
 ---
 layer: framework
 update_mode: rewrite
-role: "memory-docs 入口 —— 三层结构说明、阅读顺序、更新协议"
-read_when: "第一次进入 memory-docs，或不确定某条信息该写进哪个文件时"
-not_for: "项目本身的内容（-> OVERVIEW 等其他文件）"
+role: "memory-docs 入口 —— 阅读路由、工作收尾与更新协议"
+read_when: "第一次进入 memory-docs，或不确定何时更新、信息应写在哪里时"
+not_for: "项目内容（-> OVERVIEW / STATUS），完整历史与详细证据"
 ---
 
 # Memory Docs 入口
 
-这个文件夹是**给 Agent 看的项目记忆层**。它的唯一目标是：
+本目录让 Agent 建立项目认知、找到当前有效约束，并按需追溯证据。
+默认读取量应随当前职责与任务保持可控；历史详情可以长期积累。
 
-> 让 Agent 快速建立项目的**框架认知**，并知道**去哪里找细节**，
-> 而不是把所有细节都塞进这里。
+## 何时更新
 
----
+以用户的一次要求或约定的完整工作单元为单位。实施与相应验证达到交付节点后，
+Agent 主动询问：“这轮工作是否已经收束，是否现在更新 memory docs？”
+与用户确定要保留的内容后集中整理。节点可在 commit 前、commit 后或部署后，
+不要求先提交或部署，也不随每次局部修改、试错或提交触发写入。
 
-## 核心哲学
+用户已明确要求编辑、初始化、迁移、维护记忆或交接时，在该范围内直接完成，
+不重复确认。用户暂缓、不更新或自行整理时尊重决定，不另写 SHORT_MEMORY 绕过选择。
+这是项目记忆的写入时机；原任务要求的文档交付、接口规范仍按原授权完成。
 
-memory-docs **不是**项目的完整 API 手册或代码目录册。
+过程中发现旧文档失实，先在交付 / 进展中说明并列为修正候选；核验后按真实现状工作，
+不要继续误用旧结论。确认更新前不因每个新发现反复维护文档。
 
-它是**框架 + 导航**：
-- **框架**：项目是什么、现在在做什么、怎么来的、有什么约定 —— 这些几乎不随项目增长。
-- **导航**：当 Agent 需要某个功能的细节时，知道去哪个文件 / 哪个入口钻。
-- **证据保真**：活跃层只保留可行动结论；仍有复查价值的来源和细节进入可检索 archive。
+**控制频率与默认读取量，不限制必要记录的深度。** 复杂排障、失败路线、研究证据、
+交接及阶段历史允许长文，按用途放到详细 owner 或历史目录；不强迫缩成一句话。
 
-凡是要随项目**线性膨胀**的东西（全部 API 端点、全部组件、全部数据表……），
-都不应堆进框架层；优先留在代码或原始产物中，确需长期解释时放进按需自建的
-详细 owner，完成或被替代后再归档。
+## 阅读路由
 
----
+进入项目先读本入口、`OVERVIEW.md`、`STATUS.md`，修改前读取有关的规则。
+目录职责与默认加载集合是两回事：不因某文件属于框架层就整份预载。
 
-## 三层结构
-
-### 框架层 —— 进项目必读，永远精简
-
-这些文件**增长极慢**，是 Agent 建立认知的基底。
-
-| 文件 | 回答什么 | 更新模式 |
+| 问题 | 入口 | 读取方式 |
 |---|---|---|
-| `<memory-docs>/OVERVIEW.md` | 项目**是什么**、怎么组织 | rewrite |
-| `<memory-docs>/STATUS.md` | **现在**在做什么（当前焦点 + 最近 3-5 条） | rewrite |
-| `<memory-docs>/HISTORY.md` | 项目是**怎么走到今天**的（时间线叙事） | append |
-| `<memory-docs>/CONVENTIONS.md` | 有哪些**硬规则 / 约定** | patch |
-| `<memory-docs>/GLOSSARY.md` | 项目**术语**是什么意思 | patch |
-
-### 路由层 —— 查"去哪找"
-
-| 文件 | 回答什么 | 更新模式 |
-|---|---|---|
-| `<memory-docs>/DIRS.md` | 详细层里**有哪些子文件夹**、各是干什么的 | patch |
-
-### 详细层 —— 按需读，随项目自由生长
-
-这些文件**会随项目变大**，Agent 不进项目时不必读，需要细节时再查。
-
-| 文件 / 目录 | 回答什么 | 更新模式 |
-|---|---|---|
-| `<memory-docs>/detail_mem/MAP.md` | 某个**概念 / 功能**对应代码的**入口文件**在哪 | patch |
-| `<memory-docs>/detail_mem/PROGRESS.md` | 各模块**实现到什么程度**（清单，非流水账） | patch |
-| `<memory-docs>/detail_mem/DECISIONS.md` | 当前决策生命周期、结论与详细理由 | append（registry 可 patch） |
-| `<memory-docs>/SHORT_MEMORY/` | 会话级**临时上下文**交接 | append |
-| `<memory-docs>/archive/` | 已完成 / 旧的**历史记录** | append |
-| `<memory-docs>/research/EXPERIMENT_LEDGER.md` | 可选：实验协议、结果、证据边界 | append |
-| `<memory-docs>/<自建>/` | Agent 按需新建的详细页（见 DIRS.md） | append |
-
----
-
-## 阅读顺序
-
-**进入项目时（最小集，必读）**：
-
-1. `<memory-docs>/OVERVIEW.md`
-2. `<memory-docs>/STATUS.md`
-3. `<memory-docs>/CONVENTIONS.md`
-
-**按需查阅**：
-
-- 不懂某个词 → `GLOSSARY.md`
-- 想知道项目演变 → `HISTORY.md`
-- 要找个功能 / 代码入口 → `detail_mem/MAP.md`
-- 要看模块完成度 → `detail_mem/PROGRESS.md`
-- 想了解某个决策的来龙去脉 → `detail_mem/DECISIONS.md`
-- 不知道某个子文件夹是干嘛的 → `DIRS.md`
-- 接手未完成的会话 → `SHORT_MEMORY/`
-- 查实验协议、结果或 claim boundary → `research/EXPERIMENT_LEDGER.md`（若存在）
-- 翻旧账 / 复盘 → `archive/`
+| 项目是什么 | `<memory-docs>/OVERVIEW.md` | 全貌 |
+| 现在做什么 | `<memory-docs>/STATUS.md` | 当前快照 |
+| 本次应遵守哪些规则 | `<memory-docs>/CONVENTIONS.md` | 按任务定位有关规则 |
+| 去哪里找详细资料 | `<memory-docs>/DIRS.md` | 路由 |
+| 功能在哪里实现 | `<memory-docs>/detail_mem/MAP.md` | 概念到少数权威入口 |
+| 模块进展与缺口 | `<memory-docs>/detail_mem/PROGRESS.md` | 相关模块 |
+| 当前选择及其来由 | `<memory-docs>/detail_mem/DECISIONS.md` | 当前视图，再进入主题详情 / 历史索引 |
+| 项目如何演进 | `<memory-docs>/HISTORY.md` | 按需读取阶段叙事 |
+| 术语是什么意思 | `<memory-docs>/GLOSSARY.md` | 按需 |
+| 如何接续未完成工作 | `<memory-docs>/SHORT_MEMORY/` | 有关工作流的交接 |
+| 以前尝试和失败过什么 | `<memory-docs>/archive/` 或注册主题记录 | 检索后读证据 |
+| 实验能支持什么结论 | `<memory-docs>/research/EXPERIMENT_LEDGER.md`（可选） | 有关实验 |
 
 ### 条件式历史检索
 
-普通进入项目时不要预载全部历史。只有在判断 prior work、避免重复实现、重开旧路线、
-反转稳定决策、诊断回归或解释原因时，才用 2-4 个主题词及别名检索
-`DECISIONS`、`STATUS/HISTORY`、实验账本、计划 / 研究记录、archive 文件名 /
-manifest 和相关 Git。manifest 没有路由时，再检索匹配的 flat archive note。
-只打开有用命中，不停在第一个结果；确认 proposal、pilot、confirmation、closure /
-superseded 的完整生命周期。当前 owner 优先，并用代码或产物核验关键结论。
+准备断言以前没做过、避免重复实现、重开旧路线、反转稳定决策、诊断回归或解释历史时，
+用主题词及别名检索当前 owner、完整决策索引、实验 / 计划 / 历史记录与 Git。
+先查注册路径和 archive 文件名 / manifest，必要时搜索匹配的单篇历史文档。
+追到 proposal、pilot、confirmation、closure / superseded 的实际状态，
+不把首个命中当作最终结论；重要判断用代码、测试或产物核验。
 
----
+## 确认更新后如何组织
 
-## 更新协议（关键）
+每类事实有一个详细 owner，其他文档保留所需影响和链接。只更新本批次真正受影响的层，
+不按“每改一个 API 就给 MAP 加一行”制造流水账。
 
-这套系统最大的价值在于：**每一类信息都有明确的归属**。Agent 不必猜"这条记哪"。
+| 信息 | 主要归属 |
+|---|---|
+| 项目身份、结构与主流程 | `OVERVIEW.md` |
+| 当前项目焦点、最近有意义的里程碑 | `STATUS.md` |
+| 模块能力、缺口与局部下一步 | `detail_mem/PROGRESS.md` |
+| 生效规则 / 契约 | `CONVENTIONS.md` |
+| 功能或概念到 1–2 个代码入口 | `detail_mem/MAP.md` |
+| 重要取舍、适用条件和替代关系 | `detail_mem/DECISIONS.md` 当前视图 + 按需详情 |
+| 技术探索的成功、失败、暂缓及重试条件 | 注册主题记录；科研证据可用实验账本 |
+| 阶段演进与因果过程 | `HISTORY.md`，长阶段详情可链接出去 |
+| 未完成工作所需的上下文 | `SHORT_MEMORY/` |
+| 已结束或被替代的详细记录 | `archive/` 或有状态标记的历史 owner |
+| 新增或退役记忆目录 | `DIRS.md` |
 
-### 通用规则
+探索记录按目标分支收束：保留问题、运行条件、观察与解释、失败 / 停止原因、局限、
+重开条件、所属仓库与代码版本、数据 / 配置和产物位置。可行但尚未接入是有效结论。
+未提交状态如实注明；必要时保存可恢复差异，不编造 commit 或擅自提交。
 
-- 写入前先判断：这条信息**稳定**了吗？属于哪一层？
-- 每类可重复查询的事实只选一个**详细 owner**；其他文件只写本地需要的结论和链接。
-- `STATUS.md` 拥有项目级当前快照；`detail_mem/PROGRESS.md` 拥有模块级实现状态。
-- 框架层文件**不能无限增长**。若某段内容开始膨胀，把它移到详细层或子文件夹。
-- 压缩或归档前，先把仍然有效的结论蒸馏进 owner；不要把活跃 blocker 藏进 archive。
-- 代码与文档冲突时，**以代码为准**，并同步修正或标记文档。
-- 不把未稳定的讨论直接写成事实。
-- 计划是 proposal，不是当前事实；完成、放弃或替代后要留下
-  closure / superseded 指针，指向当前 owner、决策或 archive manifest。
+关键功能到测试 / 命令 / 缺口的映射由测试入口维护，memory 只导航。
+实验记录、技术探索和架构决策按职责区分，不把每次探针执行提升为 DECISION。
 
-### 常见工程事件 → 更新哪个文件
+## 更新模式与历史保真
 
-| 发生了什么 | 主要更新 | 可能附带 |
-|---|---|---|
-| 新增 / 改了一个 API 端点 | `detail_mem/MAP.md`（概念→入口文件，**一行**） | `STATUS.md` Done（**一句话**） |
-| 新增 / 改了一个前端功能 | `detail_mem/MAP.md`（功能→入口文件） | `STATUS.md` 一句话 |
-| 修了一个 bug | `STATUS.md` 一句话 | 复杂根因可写进自建子文件夹 |
-| 加了一张数据库表 / 字段 | `detail_mem/MAP.md`（表→入口文件） | 重大变更记 `detail_mem/DECISIONS.md` |
-| 做了一个重要架构选择 | `detail_mem/DECISIONS.md`（一条） | — |
-| 完成一次可复用实验 | `research/EXPERIMENT_LEDGER.md`（若已启用） | `STATUS.md` 只留当前影响 |
-| 完成一段会话、要交接 | `SHORT_MEMORY/`（一篇） | — |
-| 某方案定稿、沉淀下来 | `HISTORY.md`（时间线条目） | 旧 STATUS 条目可清掉 |
-| 一组来源完成 / 被替代 | `archive/YYYYMMDD_topic/` + manifest | 先更新对应 live owner |
-| 建了一个新的子文件夹 | `DIRS.md`（登记一行） | — |
+- `rewrite`：更新当前快照，如 OVERVIEW / STATUS，保留有历史价值的来源。
+- `patch`：修改相关条目，如 CONVENTIONS / MAP / PROGRESS / DIRS。
+- `append`：保留历史理由，新增事件或更正说明；不静默改写过去。
+- DECISIONS 使用混合契约：当前视图、状态和索引可 patch；详细理由 append。
+  完整旧 ID 可迁到按主题拆分的索引，入口保留可搜索路由，旧引用保留有效跳转。
+  不把所有历史行永久塞在默认读取表里，不重复使用 ID。
 
-> `detail_mem/MAP.md` 只记**概念 → 入口文件**（1-2 个文件），
-> **不要**记全量端点 / 全量组件 / 全量字段清单。
-> 全量信息留给代码本身。
+按适用性与影响范围决定可见性。古老但仍有效的规则继续可见，新记录不自动成为全局约束。
+计划和 pilot 不等于当前事实；完成、停止或被替代后留下证据及 closure / superseded 指针。
+先保存仍有效结论、完整来源与检索路径再压缩；不为篇幅隐藏当前 blocker 或删掉有用证据。
+HISTORY、SHORT_MEMORY 和详细 owner 可以长；需要时以阶段 / 主题路由控制默认读取量。
 
-### 轻量健康检查
+## 校验与安装
 
-安装了本仓库的工具后运行：
+有项目本地工具时，在已确认的更新批次前后运行：
 
 ```bash
 python3 .memory-docs-tools/validate_memory_docs.py .
 ```
 
-结构错误会阻断；断链、膨胀、陈旧、异常超长普通 prose 单行、长段重复和 archive
-可检索性属于 warning。warning 是人工判断入口，不会自动删除、归档或重写内容；
-需要在自动化中阻断时使用 `--strict`。
+修复本次引入的结构错误和相关断链。长度、陈旧等 warning 是检查线索，
+不自动授权重写、归档或删除；行数预算不代表历史详情必须短。
 
----
-
-## 复制到你的项目后
-
-把整个文件夹复制进你的项目，改名为 `memory-docs/`，然后：
-
-1. 把文件里所有 `<memory-docs>/` 占位换成 `memory-docs/`。
-2. 让 Agent 读 `INDEX.md`（本文件）建立认知。
-3. 让 Agent 用 `init-memory` 之类的能力扫描仓库，把模板填成真实内容。
-
-如果你的项目根目录已有 `AGENTS.md`，把本项目 `AGENTS.md` 中的
-"memory-docs 使用指引"部分合并进去。
+安装到项目时替换 `<memory-docs>/` 占位，使用 `init-memory` 初始化真实内容。
+已有 memory 目录与入口遵循项目注册位置，增量迁移协议，保留实际内容与历史。
