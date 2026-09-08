@@ -14,6 +14,11 @@ Commit messages should be self-contained summaries with stable pointers into liv
 
 If the repository uses `memory-docs/`, prefer linking detailed context and decisions there instead of expanding commit bodies with long design narratives.
 
+Reference records that already exist and match the staged facts. Message generation does not
+authorize creating or updating memory; respect the user's work-unit closeout decision.
+If memory is deferred or no relevant record exists, make the commit self-contained and omit
+unsupported Live Docs links. Do not fabricate an ID or require memory before committing.
+
 ## Workflow
 
 1. Read the staged facts first.

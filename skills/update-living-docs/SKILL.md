@@ -1,133 +1,124 @@
 ---
 name: update-living-docs
-description: Maintain an initialized memory-docs system after meaningful implementation, research, operational, documentation, decision, milestone, or handoff work. Use when verified durable facts or continuation context should be distilled into canonical owners, or when a user asks to audit, compress, archive, or repair project memory. Do not use for first-time initialization, trivial edits, or unresolved discussion with no durable outcome.
+description: Review memory needs at a completed work unit and, after user confirmation or an explicit maintenance request, update project memory as one coherent batch. Preserve detailed evidence and searchable history. Do not write memory after every small edit or use handoffs to bypass a user's deferral.
 ---
 
 # Update Living Docs
 
-Keep project memory aligned with verified reality while minimizing active-document duplication and preserving useful historical detail.
+Maintain verified project knowledge at work-unit boundaries. Keep default reading focused;
+allow full-length explanations when they help future diagnosis, research or continuation.
 
-## Establish the Memory Contract
+## Establish the Update Scope First
 
-1. Confirm `memory-docs/INDEX.md` exists. Use `init-memory` instead when the installed templates still need first-time initialization.
-2. Read repository instructions, `memory-docs/INDEX.md`, and only the memory files relevant to the work. Do not preload all historical memory.
-3. Read each target file's frontmatter:
-   - `role`: what the file owns;
-   - `not_for`: what belongs elsewhere;
-   - `update_mode`: how the file may change;
-   - optional `line_budget` and `stale_after_days`: advisory health thresholds.
-4. Treat code, tests, generated results, executed commands, artifacts, and explicit user decisions as evidence. Never update memory from conversation recall alone.
-5. Run the project-local validator as a preflight when it is installed:
+- During implementation, collect evidence in the working context. Do not repeatedly update
+  memory after each local fix, probe, attempt or commit.
+- When the user's request or agreed work unit reaches its delivery point, ask whether the
+  work is concluded and whether to update memory now. Discuss what should be retained,
+  then write the confirmed batch. This point may be before commit, after commit or after
+  deployment; neither commit nor deployment is a prerequisite.
+- An explicit request to edit, initialize, migrate, maintain or produce a memory handoff
+  already authorizes that scope. Complete it without asking again. Preserve prior choices
+  to defer, skip or let the user write the record; do not bypass them through SHORT_MEMORY.
+- If this work reveals stale memory before approval, report the discrepancy and propose
+  a correction for closeout. Verify material facts instead of relying on stale wording.
+- This gate concerns memory distillation, not documents or interface specifications already
+  required by the user's task. Do that authorized work without adding a second approval.
+
+## Read the Installed Contract
+
+1. Resolve the memory directory and entry from repository instructions. Prefer the installed
+   `memory-docs/INDEX.md`; respect an existing registered layout such as `docs/README.md`.
+   Do not rename a project's memory to satisfy a template. Use `init-memory` for first setup.
+2. Read the entry and relevant target files, including their `role`, `not_for`, `update_mode`
+   and optional health metadata. Do not preload all history.
+3. Ground claims in code, tests, executed commands, artifacts and explicit user decisions.
+   Distinguish observation, interpretation, proposal, implementation and verification.
+4. For an authorized update batch, run the installed validator before editing when available:
 
    ```bash
    python3 .memory-docs-tools/validate_memory_docs.py .
    ```
 
-Treat pre-existing findings as context, not permission for unrelated rewrites. Read `references/health-and-maintenance.md` completely before resolving health findings, performing a substantial archive or compression pass, or applying the historical retrieval gate below.
+For a substantial archive / compression pass, health repair or triggered historical question,
+read [health-and-maintenance.md](references/health-and-maintenance.md) completely.
+Pre-existing warnings do not authorize unrelated rewrites.
 
-## Apply Historical Retrieval Only When Triggered
+## Historical Retrieval
 
-Before asserting that work was never done, avoiding a duplicate implementation, reopening an old route, reversing a stable decision, diagnosing a regression, or explaining why the project is in its current state, apply the bounded historical retrieval gate in `references/health-and-maintenance.md`.
+Before asserting no prior work, reopening a route, reversing a stable choice, diagnosing
+a regression or explaining history, search relevant topic terms and aliases across current
+owners, full decision indexes, experiments, plans, archive routes and Git. Follow useful hits
+through confirmation, closure or supersession; do not stop at a promising proposal or pilot.
+The current view is intentionally incomplete as a historical catalog.
 
-For ordinary updates, do not load history by default. For triggered questions, search with 2–4 topic terms and aliases, read only useful hits, reconstruct the lifecycle beyond the first hit, prefer the current owner, and verify material conclusions against code or artifacts.
+## Route Each Fact to One Detailed Owner
 
-During an explicit protocol migration or a substantial maintenance pass, merge
-a concise version of this gate into repository instructions and
-`memory-docs/INDEX.md` when they lack it. Preserve project-specific rules; do
-not replace either file with the template.
+Paths below are relative to the project's actual memory root.
 
-## Route Information to One Owner
-
-Give every durable fact one canonical detailed owner. Other active documents may state the local consequence, but should link to the owner rather than repeat its explanation.
-
-| Information | Primary target |
+| Information | Primary owner |
 |---|---|
-| Stable project identity, scope, top-level workflow | `memory-docs/OVERVIEW.md` |
-| Project-wide current focus, recent 3–5 milestones, blockers, confirmed backlog | `memory-docs/STATUS.md` |
-| Stage transitions and causal project evolution | `memory-docs/HISTORY.md` |
-| Hard rules and stable contracts | `memory-docs/CONVENTIONS.md` |
-| Domain terms, variables, display names | `memory-docs/GLOSSARY.md` |
-| Detailed-memory directory registration | `memory-docs/DIRS.md` |
-| Concept or artifact to 1–2 authoritative entry files | `memory-docs/detail_mem/MAP.md` |
-| Module and capability implementation state | `memory-docs/detail_mem/PROGRESS.md` |
-| Stable choices, current decision lifecycle, rationale, and impact | `memory-docs/detail_mem/DECISIONS.md` registry plus detail |
-| Experimental protocol, artifacts, results, interpretation, uncertainty, claim limits | optional `memory-docs/research/EXPERIMENT_LEDGER.md` |
-| Useful but not yet stable continuation context | `memory-docs/SHORT_MEMORY/` |
-| Completed retrospectives, old snapshots, rejected or superseded detail | `memory-docs/archive/` |
+| Project identity, structure and main workflow | `OVERVIEW.md` |
+| Current project focus, recent meaningful milestones | `STATUS.md` |
+| Module capabilities, blockers and local next steps | `detail_mem/PROGRESS.md` |
+| Current rules and contracts | `CONVENTIONS.md` |
+| Terms and definitions | `GLOSSARY.md` |
+| Concept to 1–2 authoritative code entry points | `detail_mem/MAP.md` |
+| Significant choice, applicability and rationale | `detail_mem/DECISIONS.md` current view + detail |
+| Technical exploration outcomes and reopening conditions | Registered topic record |
+| Research protocols, results and claim boundaries | Optional `research/EXPERIMENT_LEDGER.md` |
+| Causal stage evolution | `HISTORY.md` or linked stage detail |
+| Context required to continue unfinished work | `SHORT_MEMORY/` |
+| Completed, rejected or superseded historical detail | `archive/` or a registered historical owner |
+| Memory subdirectory routing | `DIRS.md` |
 
-Keep the ownership boundaries explicit:
+Do not turn each changed API, bug fix or probe into a MAP / STATUS / DECISIONS update.
+Only update owners affected by the completed batch. Non-owners link to the explanation.
+Test coverage maps belong with testing instructions; memory links to that maintained entry.
 
-- `STATUS.md` owns the concise project-level snapshot; `PROGRESS.md` owns module-level implementation detail.
-- `SHORT_MEMORY/` owns only the delta required to resume active work, not stable project truth.
-- `EXPERIMENT_LEDGER.md`, when present, owns durable research evidence and claim boundaries. It does not own current TODOs, the next experiment, live server state, raw logs, or session-resume instructions.
-- The research ledger is optional. Do not create it merely because a repository contains research code, and do not treat its absence as a defect.
+Successful and failed exploration records should retain the goal, conditions, observations,
+interpretation, limits, failure / stopping cause, reopening conditions, repository and code
+revision, data / configuration and artifact pointers. A feasible but unintegrated demo is a
+valid outcome. Distinguish blocked or inconclusive from disproven. Mark uncommitted state
+truthfully and preserve necessary differences; do not invent revisions or commit without scope.
 
-If a detailed topic needs more than a short entry, create a semantic subdirectory under `memory-docs/` and register it in `DIRS.md` in the same change.
+Long troubleshooting narratives, failed approaches, handoffs and historical explanations are
+welcome when useful. Control writing frequency and default retrieval, not evidence length.
+SHORT_MEMORY owns continuation detail, not another copy of current status. The optional
+research ledger owns evidence, not current TODOs or live infrastructure state.
 
-## Obey Update Modes
+## Update Modes and Decision Lifecycle
 
-### `rewrite`
+- `rewrite`: replace the current snapshot, preserving frontmatter and useful historical sources.
+- `patch`: update structured entries only where the batch changes them.
+- `append`: preserve historical reasoning; add records, dated corrections or closure notes.
+- DECISIONS retains the compatible `append` frontmatter with a mixed internal contract:
+  patch the current view, lifecycle and lookup routes; append rationale. Keep relevant active
+  and governing choices visible by applicability and scope, not by age alone.
 
-Replace the current snapshot while preserving frontmatter. Standard files: `INDEX.md`, `OVERVIEW.md`, `STATUS.md`.
+The full ID registry need not stay in the default-read table. As it grows, keep searchable
+topic indexes or individual records, route to them from DECISIONS, and preserve each ID,
+keywords, replacement relationships and valid detail links. Never reuse an ID; namespace
+colliding legacy IDs. Preserve old references with redirects or repair known callers.
+Move details only after the live conclusion and historical retrieval path are secure.
 
-Move historically valuable removed content to `HISTORY.md` or `archive/`; do not retain stale text merely to avoid rewriting.
+Plans and pilots are not evidence of implementation. At closure, link the outcome to its
+confirmation or superseding evidence. A partially replaced choice must retain its scope.
 
-### `patch`
+## Complete the Confirmed Batch
 
-Modify structured entries in place. Standard files: `CONVENTIONS.md`, `GLOSSARY.md`, `DIRS.md`, `detail_mem/MAP.md`, `detail_mem/PROGRESS.md`.
+1. Assemble the full work-unit outcome and separate stable facts, useful history, unfinished
+   context and information with no lasting value.
+2. Update the smallest sufficient set of canonical owners; keep the current answer visible.
+3. Before compression, preserve stable conclusions and full useful evidence, add an archive
+   manifest for multi-file bundles, and retain working retrieval links.
+4. Register actual new memory directories in DIRS. Do not create ceremonial empty layers.
+5. Validate once after the batch. Fix errors and relevant warnings introduced by the change;
+   report unrelated pre-existing findings without expanding scope.
 
-Add, correct, or remove only the affected entries. `PROGRESS.md` is a checklist, not a dated changelog. `MAP.md` is navigation, not a full inventory.
+Never archive current blockers or active evidence to satisfy a length budget. HISTORY and
+detail may be long; use topic / stage navigation when needed. Never invent completed work,
+tests, rationale or priorities. Do not fill empty templates with the current maintenance task.
 
-### `append`
-
-Add new records without silently rewriting history. Standard files: `HISTORY.md`, `detail_mem/DECISIONS.md`, `SHORT_MEMORY/`, `archive/`.
-
-`DECISIONS.md` uses a compatible mixed contract: keep `update_mode: append`; patch its compact registry when status, current conclusion, keywords, or pointers change; append detailed records; and never reuse an ID. If a decision is superseded, append a new decision or dated closure note that references the old ID. When near budget, archive closed or superseded rationale only after retaining its registry row and a valid detail pointer. Namespace imported legacy IDs when collisions are possible.
-
-For optional or project-specific documents, obey their own frontmatter.
-
-## Workflow
-
-1. Collect verified facts from the actual diff, tests, commands, artifacts, repository state, and explicit decisions.
-2. Classify each fact as framework truth, detailed active state, session context, historical detail, or non-durable information.
-3. Select one canonical owner for each durable fact and the smallest sufficient set of target files.
-4. Put the current answer or decision first. Keep evidence, commands, and narrative in the detailed owner; use a short consequence and link elsewhere.
-5. Apply each target's update mode and preserve its frontmatter.
-6. Before shortening or replacing useful detail:
-   - distill stable conclusions into their live owners;
-   - preserve completed, superseded, rejected, or compressed source detail in `archive/`;
-   - add a manifest for a multi-file archive bundle and keep relevant live-to-archive links;
-   - only then remove the duplicated or stale live detail.
-7. Close plan lifecycles explicitly. Treat plans as proposals, not current truth. When a plan completes, stops, or is replaced, add a closure or superseded pointer to the current owner, decision, evidence, or archive manifest.
-8. Cross-check related layers without spraying the same update everywhere:
-   - implementation entry changed → consider `MAP.md`;
-   - module status changed → consider `PROGRESS.md` and a concise `STATUS.md` consequence;
-   - stable choice emerged → append `DECISIONS.md`;
-   - a stage settled → append `HISTORY.md` and trim stale `STATUS.md` milestones;
-   - custom memory directory added → patch `DIRS.md`;
-   - unresolved work needs continuation context → update the relevant handoff.
-9. Run the validator again after editing. Resolve errors introduced by the change and high-signal warnings related to the current work. Preserve and report unrelated pre-existing warnings unless the user expands the scope.
-
-Do not update files merely to make every layer change. If no durable or handoff-worthy information emerged, make no memory diff and report that no update was needed.
-
-## Hard Rules
-
-- Never invent completed work, tests, priorities, decisions, evidence, or historical rationale.
-- Keep framework memory compact and prevent linear growth.
-- Do not put raw discussion into stable memory.
-- Do not treat a proposal, pilot, or stale plan as the current confirmed state.
-- Do not put dated narratives in `PROGRESS.md` or full file lists in `MAP.md`.
-- Do not archive unresolved blockers, current operating procedures, or active evidence merely to satisfy a budget.
-- Do not delete useful content solely to make the validator green.
-- Do not create legacy `docs/`, `MEMORY_MANIFEST.yml`, `RUNBOOK.md`, or `memory-docs/README.md` unless the project independently uses them for another purpose.
-- Preserve user changes and project-specific custom memory directories.
-
-## Completion Report
-
-Report:
-
-- files updated, the update mode used, and why each was the canonical owner;
-- detail archived and where its stable conclusions now live;
-- relevant files intentionally left untouched;
-- preflight and postflight validation results;
-- remaining warnings, distinguishing pre-existing findings from items requiring user judgment.
+Report what changed, where detailed evidence lives, validation and remaining limitations.
+If no write was approved or no durable content warrants it, make no memory diff. Do not ask
+for another memory update just because this authorized maintenance operation finished.

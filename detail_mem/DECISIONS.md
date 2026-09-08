@@ -2,53 +2,54 @@
 layer: detail
 update_mode: append
 line_budget: 200
-role: "决策注册表与档案 —— 当前结论、生命周期，以及为什么选 A 不选 B"
-read_when: "做设计选择、回看旧决策、想理解某东西为什么是这样时"
-not_for: "操作规则（-> CONVENTIONS），未定论的讨论（-> SHORT_MEMORY/），演变叙事（-> HISTORY）"
+role: "决策当前视图与检索路由 —— 有效选择、生命周期和按需理由"
+read_when: "做设计选择、回看旧决策、理解某东西为什么这样时"
+not_for: "操作规则（-> CONVENTIONS），未定讨论（-> SHORT_MEMORY/），完整演变叙事（-> HISTORY）"
 ---
 
 # Decisions
 
-> 用紧凑 registry 快速找到当前结论，再按需读取详细理由或 archive。
->
-> - `DECISIONS.md` 是**决策查找表**：registry 回答当前结论和生命周期，
->   detail 保留来由和取舍。
-> - `HISTORY.md` 是**叙事线**：把多条决策串成项目演变的故事。两者互补。
+在用户确认的记忆更新批次中维护。普通开发不随每次局部改动追加决定。
+记录对未来仍有解释或约束价值的选择；探索证据可以放在主题记录，不必全部升级为 ADR。
 
 ## Registry
 
+这是当前视图：展示当前执行、仍在约束系统或与当前工作直接相关的决定。
+按适用性与影响范围选择，不能仅按日期淘汰旧决定，也不按时间永久追加所有历史行。
+
 | ID | Status | Topic | Current conclusion | Keywords | Detail |
 |---|---|---|---|---|---|
-| `DEC-001` | `governing` | `<主题>` | `<一句话当前结论>` | `<自然检索词、旧称、别名>` | [details](#dec-001) |
+| `DEC-001` | `governing` | `<主题>` | `<当前结论与适用范围>` | `<自然检索词、旧称>` | [details](#dec-001) |
 
-Status 使用：
+Status：
 
 - `active`：稳定选择正在执行或验证，尚未形成长期默认；
 - `governing`：当前规则、默认或设计边界；
 - `closed`：路线已明确停止；
-- `superseded`：已由另一 ID 替代；
-- `historical`：只为解释历史保留，不再约束当前工作。
+- `superseded`：已由其他决定全部或部分替代，注明替代范围和 ID；
+- `historical`：只解释历史，不再约束当前工作。
 
-`Current conclusion` 必须能脱离详细记录独立理解，`Keywords` 使用未来读者会自然搜索的词。
+## 历史检索路由
+
+项目尚小时可以保留本文件内的详情。增长后按需在 `detail_mem/` 下维护主题索引或
+单独决策页，登记实际路径；不要提前创建空目录或全量历史副本。
+完整索引保留 ID、主题、关键词、生命周期、替代关系和详情位置，可以按主题拆分。
+本入口只保留主题到索引的路由及当前需要的结论，不要求默认加载所有历史索引。
 
 ## 更新契约
 
-为兼容既有工具，frontmatter 仍为 `update_mode: append`。文件内部采用以下混合契约：
+为兼容工具，frontmatter 保持 `update_mode: append`，内部使用混合契约：
 
-- **Registry 可 patch**：状态、当前结论、关键词和 detail 指针应随生命周期更新；
-  不删除旧 ID，也不把旧 ID 分配给新含义。
-- **Detail 正常 append**：新增决策追加独立记录；已有 rationale 不静默改写。
-  被替代时追加新决策或带日期的 closure note，并从 registry 互相链接。
-- **受控 rollover**：接近 `line_budget` 时，可在先更新 registry 后，把
-  `closed` / `superseded` 的完整 rationale 移入 archive；registry 行和可用 detail
-  指针必须保留。
+- **当前视图与索引可 patch**：及时反映已确认状态；完整记录只设一个详细 owner。
+- **理由正常 append**：旧理由不静默改写，更正或替代附日期和证据。
+- **受控迁移**：用户确认维护后，先保留稳定 ID、可检索索引与详情，再缩减活跃内容。
+  旧链接保留有效跳转或在受控范围内同步修正；迁移索引后检索仍能找到旧 ID 和自然关键词。
+- **不复用 ID**：导入冲突用稳定 namespace，例如 `legacy-2024-06/DEC-001`，
+  不让裸 ID 指向两个决定。旧行可退出当前视图，但不能从可检索历史中消失。
 
-ID 一经发布永不复用。迁入旧账若与本项目 ID 冲突，使用稳定 namespace，例如
-`legacy-2024-06/DEC-001`，不要让同一个裸 ID 指向两个决定。
-
-计划默认只是 proposal，不能据此断言当前状态。计划完成、停止或被替代时，必须留下
-明确的 `closure` / `superseded` 指针，连接计划、registry 当前行以及确认它的
-代码、产物、实验记录或 archive manifest。
+当前仍重要的长理由可以独立成页；行数预算提醒整理默认视图，不限制必要证据的长度。
+已停止或被替代的完整理由可归档；先保留当前 owner 与有效指针。
+计划、pilot 和“技术可行但尚未接入”不自动成为 governing 决策。
 
 ## Details
 
@@ -56,13 +57,13 @@ ID 一经发布永不复用。迁入旧账若与本项目 ID 冲突，使用稳�
 
 - 标题：`<标题>`
 - 日期：`<YYYY-MM-DD>`
-- 状态：`governing`
-- 背景：
+- 状态与适用范围：
+- 背景、约束与备选方案：
 - 决策：
-- 理由：
-- 影响：
+- 理由与影响：
 - 证据 / 验证：
+- 代码仓库与版本 / 相关产物：
+- 重审条件：
 - 生命周期：`<proposal / pilot / confirmation / closure / superseded 链接>`
+- 替代关系与保留部分：
 - 演变关联：见 `<memory-docs>/HISTORY.md`
-
-不要把仍在讨论、只有 proposal 或只有未确认 pilot 的内容写成 governing 决策。

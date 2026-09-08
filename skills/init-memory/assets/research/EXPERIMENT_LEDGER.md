@@ -13,6 +13,9 @@ not_for: "当前 TODO / 下一步（-> STATUS），模块进度（-> PROGRESS）
 
 ## 使用规则
 
+- 在用户确认的工作收尾或明确授权的记忆维护中集中记录，不跟随每个局部尝试更新。
+- 复杂过程可完整保留；入口按主题索引，不将压缩篇幅作为目标。
+
 - 每个实验使用稳定 ID。
 - 记录足以判断可比性的协议字段，不复制全部配置。
 - artifact 使用仓库相对路径、稳定 URI 或明确的外部位置。
@@ -23,9 +26,9 @@ not_for: "当前 TODO / 下一步（-> STATUS），模块进度（-> PROGRESS）
 
 ### EXP-<ID>: <title> (<YYYY-MM-DD>)
 
-- Status: planned | running | complete | invalid | superseded
+- Status: complete | blocked | inconclusive | invalid | superseded
 - Question / hypothesis:
-- Code revision:
+- Repository / code revision (mark uncommitted differences truthfully):
 - Protocol:
   - data / split:
   - model / method:
@@ -36,5 +39,7 @@ not_for: "当前 TODO / 下一步（-> STATUS），模块进度（-> PROGRESS）
 - Results:
 - Interpretation:
 - Uncertainty / failure modes:
+- Failure / stopping cause and conditions for reopening:
+- Applicability / integration state (feasible does not imply integrated):
 - Claim boundary:
 - Related / supersedes:

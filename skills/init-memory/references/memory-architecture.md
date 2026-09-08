@@ -56,6 +56,13 @@ Boundary rules:
 
 ## 3. Information flow
 
+After initialization, routine memory writes happen at a completed work unit, after the user
+confirms closeout and memory scope. An explicit initialization, migration or maintenance request
+already authorizes its scope. Do not write after every small edit, probe or commit.
+Commit and deployment are not prerequisites. Respect deferral and user-authored summaries.
+Complex history, troubleshooting and handoffs may be long; default reading and writing cadence
+are the limits to control, not evidence length. HISTORY is read on demand.
+
 Use one-way distillation:
 
 ```text
@@ -113,8 +120,14 @@ mixed internal contract:
 - append rationale and evidence records without silently rewriting them;
 - never reuse a published ID;
 - namespace imported legacy IDs when source histories collide;
-- when near the advisory budget, archive closed or superseded rationale only
-  after preserving the registry row and a valid detail pointer.
+- keep the default view focused on currently applicable decisions;
+- as the registry grows, move complete historical lookup rows to topic indexes while retaining
+  stable IDs, natural keywords, lifecycle relationships, detail links and discoverable routes;
+- preserve old references by redirects or update known callers within the maintenance scope;
+- archive rationale after preserving its live conclusion and valid historical lookup path.
+
+Choose visibility by current applicability and scope, not age. Long active rationale may have
+its own detailed page. No budget requires discarding useful history or hiding current constraints.
 
 A plan is a proposal, not proof of execution or current status. For a completed,
 abandoned, or replaced plan, preserve a closure or superseded pointer linking
@@ -175,6 +188,11 @@ The ledger owns:
 - code revision, configuration, seed, data, and artifact pointers;
 - result, interpretation, uncertainty, and claim boundary;
 - validity, supersession, and links to related experiments.
+- failure or stopping cause, reopening conditions and whether a feasible route was integrated.
+
+Technical demos can use registered topic records instead of the optional research ledger.
+Record repository-specific revisions and recoverable uncommitted differences where necessary;
+code versions alone may not restore data, configuration or external model behavior.
 
 It excludes:
 

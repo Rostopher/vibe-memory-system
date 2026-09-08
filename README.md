@@ -16,15 +16,30 @@ Agent 每次进入项目，读其中几个精简文件，就能继承之前的�
 
 | 层 | 内容 | 性质 |
 |---|---|---|
-| **框架层** | OVERVIEW / STATUS / HISTORY / CONVENTIONS / GLOSSARY | 增长极慢，进项目必读 |
+| **框架层** | OVERVIEW / STATUS / HISTORY / CONVENTIONS / GLOSSARY | 当前入口聚焦；规则按任务、历史按需读取 |
 | **路由层** | DIRS | 查"详细层里有什么、去哪找" |
 | **详细层** | detail_mem/（MAP / PROGRESS / DECISIONS）+ 可选子文件夹 + archive | 按需读，保留证据与细节 |
 
-关键设计：**框架层不放任何会随项目线性膨胀的东西**。
+关键设计：**默认读取面保持可控，详细证据与历史允许增长**。
 全量 API 列表、全量组件清单留在代码里；memory-docs 维护"框架 + 导航指针 +
 可追溯的细节"。每类事实只有一个详细 owner，非 owner 只保留当前读者需要的结论和链接。
 
 ---
+
+## 开发与记忆的节奏
+
+按不确定性选择隔离 Explore、局部 `probe_` 或直接实现。探索验证可行后可以暂不接入；
+Integrate 完成模块归属、必要整理和受影响行为验证。日常整理服务当前修改，
+版本节点与累计改动触发结构检查，Consolidate 由 Agent 提出证据和范围、用户决定。
+
+memory 以完整工作单元收尾：到达约定交付节点，询问是否收束、是否更新，确认后集中整理。
+不随每个小改动或试错反复写 docs；commit 和部署均不是前提。已经明确授权的初始化、
+迁移和维护直接执行，不重复确认。用户暂缓或自行整理时尊重决定。
+复杂排障、失败探索、SHORT_MEMORY 和历史允许长文，按用途保真并提供检索入口。
+
+新探针命名 `probe_`，正式测试沿框架约定；既有 `_test_` 分类迁移与关键测试补齐另行安排。
+核心规则见 [AGENTS.md](AGENTS.md)，完整流程见
+[evolutionary-development](skills/evolutionary-development/SKILL.md)。
 
 ## 怎么用（30 秒）
 
@@ -92,7 +107,7 @@ python3 scripts/install_to_project.py <目标项目> --skill-target codex --forc
 ```
 
 然后明确要求 `init-memory` 执行 protocol migration：保留现有 owner、frontmatter、
-自建目录和项目规则，只把缺失的历史检索门、decision registry 与 archive 契约合并进
+自建目录和项目规则，把工作单元收尾、历史检索、当前决策视图与 archive 契约合并进
 现有 `AGENTS.md` / `memory-docs`；registry 从现有稳定 ID 渐进建立，不批量重写历史。
 最后运行 validator。`--force` 不会暗中改写已有的真实项目记忆或 `AGENTS.md`。
 
@@ -142,8 +157,8 @@ skill 名称和确定性 SHA-256 tree 摘要，但不记录本机绝对源码路
   → 解法：先把稳定结论蒸馏进 owner，再用带 manifest 的 archive bundle 保留来源。
 
 - **DECISIONS 线性膨胀**：每条 rationale 永久堆在活跃文件里，真正有效的决策被淹没。
-  → 解法：保留带 lifecycle、自然关键词和 detail 指针的紧凑 registry；关闭或替代的
-  详细理由先归档，registry 指针继续留在活跃路径。
+  → 解法：当前视图突出仍适用的选择，完整 ID 与理由放到可检索的主题索引 / 详情。
+  保留 lifecycle、自然关键词、旧引用和替代关系，不让默认读取表随历史无限追加。
 
 - **历史首个命中误导**：搜索先命中 proposal 或 promising pilot，就误以为它是最终结论。
   → 解法：只在相关任务中做有界历史检索，并继续追到 confirmation、closure 或
@@ -176,7 +191,7 @@ vibe-memory-system/
 │   ├── detail_mem/           ← 详细层主目录
 │   │   ├── MAP.md           ← 概念→入口文件（导航，非全量清单）
 │   │   ├── PROGRESS.md      ← 模块实现清单
-│   │   └── DECISIONS.md     ← 紧凑决策 registry + 活跃 rationale
+│   │   └── DECISIONS.md     ← 当前决定 + 完整历史的按需检索路由
 │   ├── DIRS.md              ← 路由层：子文件夹注册表
 │   ├── SHORT_MEMORY/        ← 会话级临时上下文
 │   └── archive/             ← 历史归档
@@ -207,13 +222,20 @@ vibe-memory-system/
 | Skill | 用途 |
 |---|---|
 | `init-memory` | 首次接入时扫描仓库，把 memory-docs 模板一次性填成真实内容 |
-| `update-living-docs` | 做完工作后，按更新协议把结果回写 memory-docs |
+| `update-living-docs` | 工作收尾时审议记忆，按已确认范围集中更新并验证 |
+| `evolutionary-development` | Explore / probe / 直接实现、Integrate、验证与 Consolidate 边界 |
+| `research-scaffold` | 初始化或调整研究目录职责，连接现有 memory，区分材料、判断、代码与写作 |
+| `research-engineering` | 数据与研究语义、可复现执行、探针和正式测试 |
 | `commit-pipeline` | plan → stage → message → commit |
 | `git-understand` | 新会话快速建立仓库上下文 |
 
 ---
 
 ## 科研项目（可选）
+
+新建或调整研究项目目录时使用 `research-scaffold`。它提供可选择的研究目录和初始化脚本，
+新项目接入当前 memory 模板，已有项目沿用实际记忆入口；不要求统一搬迁为固定目录树。
+该 skill 随现有 skills 安装与同步流程分发。
 
 持续产生实验协议、artifact、结果和 claim boundary 的项目，可以让 `init-memory`
 从 skill asset 创建：
@@ -232,10 +254,11 @@ memory-docs/research/EXPERIMENT_LEDGER.md
 
 - **职责清晰比格式统一重要**：每个文件只做一件事，边界用 `not_for` 写明。
 - **一个事实一个 owner**：非 owner 只保留局部结论和链接，避免多个“最新状态”。
-- **框架层保持精简**：任何会随项目膨胀的内容都不该进框架层。
+- **默认读取聚焦**：当前答案可见；历史和长证据按需读取，必要时按主题 / 阶段拆分。
+- **按工作单元更新**：先确认收尾与记忆范围，再集中沉淀，允许充分记录复杂过程。
 - **导航优先于细节**：memory-docs 是地图，不是百科全书。
 - **先蒸馏再归档**：当前结论必须直接可见，最细来源仍可检索。
 - **按需追完整生命周期**：历史相关任务用少量关键词查命中，不预载全部历史，
   也不停在第一个 proposal / pilot。
 - **健康检查辅助判断**：启发式 warning 不自动删改内容。
-- **以代码为准**：文档与代码冲突时，信代码，修文档。
+- **证据核验**：文档与实现冲突时核验并说明；记忆修正在已确认批次中进行。
